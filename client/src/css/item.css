@@ -1,0 +1,14 @@
+.item {
+  margin-top: 65px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.item .btn-success {
+  gap: 100px;
+  width: 250px;
+  height: 60px;
+  font-size: 25px;
+  font-weight: bold;
+}

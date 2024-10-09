@@ -6,6 +6,7 @@ const bodyParser=require("body-parser");
 //import router files
 const authRouter = require("./routes/student");
 const ProfileRouter = require("./routes/profile");
+const CardRouter = require("./routes/card");
 
 const app=express();
 const PORT=process.env.PORT || 9001;
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 // route middleware
 app.use(ProfileRouter);
+app.use(CardRouter);
 
 mongoose.connect("mongodb://localhost:27017/lerning_managment_system",{
     useNewUrlParser:true,

@@ -1,0 +1,13 @@
+.weeks {
+  display: block;
+}
+
+.weeks .weekshow {
+  display: flex;
+}
+.weeks .btn-success {
+  background-color: #bebebe;
+  margin-top: 10px;
+  margin-left: 2px;
+  font-size: 25px;
+}
