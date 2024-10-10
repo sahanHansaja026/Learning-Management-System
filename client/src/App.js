@@ -12,6 +12,7 @@ import AddPage from "./components/Add";
 import Assingment from "./components/assingment";
 import Note from "./components/note";
 import Video from "./components/video";
+import Search from "./pages/search";
 
 const App = () => {
   const location = useLocation();
@@ -26,6 +27,7 @@ const App = () => {
         <Route exact path="/registar" element={<Regestar/>}/>
         <Route exact path="/profile" element={<Profile/>}/>
         <Route exact path="/home" element={<Home/>}/>
+        <Route exact path="/search" element={<Search/>}/>
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route exact path="/teacherweek/:id" element={<Teacherweek />} />
         <Route exact path="/add/:id" element={<AddPage />} />

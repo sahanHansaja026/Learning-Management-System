@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import authService from '../services/authService';
 import axios from 'axios';
-import '../css/navbar.css'; // Ensure this file exists for styling
+import '../css/navbar.css';
+
 
 const importAll = (r) => {
   let images = {};
@@ -73,8 +74,8 @@ function Navbar() {
             <>
               <Link to="/home">Home</Link>
               <Link to="/dashboard">Dashboard</Link>
-              <Link to="#">About Us</Link>
-              <Link to="#">Search</Link>
+              <Link to="/serarch">About Us</Link>
+              <Link to="/search">Search</Link>
               <Link to="/">Logout</Link>
             </>
           ) : (
