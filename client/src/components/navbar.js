@@ -1,17 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import authService from '../services/authService';
-import axios from 'axios';
-import '../css/navbar.css';
-
-
-const importAll = (r) => {
-  let images = {};
-  r.keys().forEach((item) => { images[item.replace('./', '')] = r(item); });
-  return images;
-};
-
-const images = importAll(require.context('../profile', false, /\.(png|jpe?g|svg)$/));
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import authService from "../services/authService";
+import axios from "axios";
+import "../css/navbar.css";
 
 function Navbar() {
   const [user, setUser] = useState(null);
@@ -25,11 +16,10 @@ function Navbar() {
         if (userData && userData.email) {
           fetchUserProfile(userData.email); // Fetch user profile if email exists
         } else {
-          // If no user data, show default image by setting profile to null
-          setUserProfile(null);
+          setUserProfile(null); // If no user data, show default image
         }
       } catch (error) {
-        console.error('Failed to fetch user data', error);
+        console.error("Failed to fetch user data", error);
         setUserProfile(null); // On error, set profile to null to show default image
       }
     };
@@ -39,15 +29,16 @@ function Navbar() {
 
   const fetchUserProfile = async (email) => {
     try {
-      const response = await axios.get(`http://localhost:9001/profiles?email=${email}`);
+      const response = await axios.get(
+        `http://localhost:9001/profiles?email=${email}`
+      );
       if (response.data.success && response.data.userProfile) {
         setUserProfile(response.data.userProfile); // Update state with user profile data
       } else {
-        // If no profile exists for the user, set profile to null to show default image
-        setUserProfile(null);
+        setUserProfile(null); // No profile found, set to null
       }
     } catch (error) {
-      console.error('Failed to fetch user profile:', error.response ? error.response.data : error.message);
+      console.error("Failed to fetch user profile:", error);
       setUserProfile(null); // On error, set profile to null
     }
   };
@@ -58,14 +49,18 @@ function Navbar() {
         {user && (
           <div className="user-info">
             <div className="user-profile">
-              <Link to="/profile"> {/* Wrap the profile image in a Link component */}
+              <Link to="/Profile">
                 <img
-                  src={userProfile && userProfile.image ? images[userProfile.image] : images['default.png']} // Show default image if no userProfile or image
+                  src={
+                    userProfile && userProfile.image
+                      ? `http://localhost:9001/Profileimge/${userProfile.image}` // Profile image from backend
+                      : `http://localhost:9001/Profileimge/default.png` // Default image
+                  }
                   alt="Profile"
                   className="profile-image"
                 />
               </Link>
-              <br/>
+              <br />
             </div>
           </div>
         )}
@@ -74,7 +69,7 @@ function Navbar() {
             <>
               <Link to="/home">Home</Link>
               <Link to="/dashboard">Dashboard</Link>
-              <Link to="/serarch">About Us</Link>
+              <Link to="/search">About Us</Link>
               <Link to="/search">Search</Link>
               <Link to="/">Logout</Link>
             </>

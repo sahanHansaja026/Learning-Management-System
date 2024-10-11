@@ -65,7 +65,7 @@ const AddPage = ({ setCardId }) => {
                     <p>
                       <FaFileAlt /> Assignment File:{" "}
                       <a
-                        href={require(`../Assignments/${assignment.assignment}`)}
+                         href={`http://localhost:9001/Assignmentfile/${assignment.assignment}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -81,7 +81,7 @@ const AddPage = ({ setCardId }) => {
                       <p>
                         Video File:{" "}
                         <a
-                          href={require(`../Vedios/${assignment.video}`)}
+                          href={`http://localhost:9001/VideoFile/${assignment.video}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >

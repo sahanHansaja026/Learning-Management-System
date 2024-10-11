@@ -9,7 +9,7 @@ const router = express.Router();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.fieldname === "assignment") {
-      cb(null, path.join(__dirname, "../client/src/Assignments")); // Correct path for storing assignments
+      cb(null, path.join(__dirname, "../Assignments")); // Correct path for storing assignments
     } else {
       cb(new Error("Invalid fieldname"), null);
     }

@@ -2,6 +2,7 @@ const express =require("express");
 const mongoose = require("mongoose");
 const cors =require("cors");
 const bodyParser=require("body-parser");
+const path =require("path");
 
 //import router files
 const authRouter = require("./routes/student");
@@ -27,6 +28,12 @@ app.use(AssignmentRouter);
 app.use(VideoRouter);
 app.use(GetmoduledeatailsRouter);
 app.use(SerachRouter);
+
+// server.js or the relevant file
+app.use('/Uploads', express.static(path.join(__dirname, 'Uploads')));
+app.use('/Profileimge', express.static(path.join(__dirname, 'Profile')));
+app.use('/Assignmentfile', express.static(path.join(__dirname, 'Assignments')));
+app.use('/VideoFile', express.static(path.join(__dirname, 'Vedios')));
 
 mongoose.connect("mongodb://localhost:27017/lerning_managment_system",{
     useNewUrlParser:true,

@@ -87,23 +87,23 @@ const InputVideo = () => {
 
   const getFileIcon = () => {
     if (!newPost.video) {
-      return <FontAwesomeIcon icon={faVideo} className="video-icon" />;
+      return <FontAwesomeIcon icon={faVideo} className="default-icon" />;
     }
 
-    // Detect the file type
     const fileType = newPost.video.name.split(".").pop().toLowerCase();
     if (fileType === "mp4") {
-      return <FontAwesomeIcon icon={faVideo} className="video-icon" />;
+      return <FontAwesomeIcon icon={faVideo} className="file-icon-video" />;
     } else {
-      return <FontAwesomeIcon icon={faVideo} className="video-icon" />;
+      return <FontAwesomeIcon icon={faVideo} className="file-icon-video" />;
     }
   };
 
   return (
     <div className="video-upload">
       <h1>Add Your Video</h1>
-      <div className="video-upload-container">
-        <form onSubmit={handleSubmit} className="video-upload-form">
+      <div className="input-video-container">
+        <form onSubmit={handleSubmit} className="input-form">
+          {/* Video Name Input */}
           <label>
             <input
               type="text"
@@ -115,9 +115,10 @@ const InputVideo = () => {
             />
           </label>
 
-          <label className="video-drop-area">
+          {/* Drag-and-Drop Video Area */}
+          <div className="file-drop-area">
             <div
-              className={`video-drop-box ${dragActive ? "active" : ""}`}
+              className={`drop-area ${dragActive ? "active" : ""}`}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
@@ -131,7 +132,6 @@ const InputVideo = () => {
               ) : (
                 <>
                   {getFileIcon()}
-                  <br/>
                   <p>Drag & Drop Video (MP4) or Click to Select</p>
                 </>
               )}
@@ -141,11 +141,12 @@ const InputVideo = () => {
               name="video"
               accept=".mp4"
               onChange={(event) => handleFileChange(event.target.files[0])}
-              className="video-file-input"
+              className="file-input"
             />
-          </label>
+          </div>
 
-          <button type="submit" className="submit-video-btn">
+          {/* Submit Button */}
+          <button type="submit" className="submit-btn">
             Upload Video
           </button>
         </form>

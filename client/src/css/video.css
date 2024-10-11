@@ -25,41 +25,41 @@
   gap: 20px;
 }
 
-.input-form label {
+.video-upload .input-form label {
   display: block;
   width: 100%;
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
-  color: #333;
+  color: #ffffff;
 }
 
 /* Text input for the video name */
-input[type="text"] {
+.video-upload input[type="text"] {
   width: 92.5%;
   padding: 12px 15px;
   margin-top: 8px;
   border: 2px solid transparent;
   border-radius: 12px;
   font-size: 16px;
-  color: #333;
+  color: #ffffff;
   font-family: 'Poppins', sans-serif;
-  background: #f3f5f9;
+  background: transparent;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 /* Hover effect for text input */
-input[type="text"]:focus {
-  border-color: #0077b6;
+.video-upload input[type="text"]:focus {
   outline: none;
   background-color: #eaf0f6;
 }
 
 /* Drag-and-drop area for the video file */
-.file-drop-area {
+.video-upload .file-drop-area {
   position: relative;
 }
 
-.drop-area {
+.video-upload .drop-area {
+  display: flex;
   justify-content: center;
   align-items: center;
   padding: 30px;
@@ -75,28 +75,28 @@ input[type="text"]:focus {
 }
 
 /* Active state for drag-and-drop area */
-.drop-area.active {
+.video-upload .drop-area.active {
   background-color: #90e0ef;
   border-color: #0077b6;
 }
 
-.drop-area p {
+.video-upload .drop-area p {
   font-size: 16px;
   color: #252525;
 }
 
 /* Icons for the file type */
-.default-icon, .file-icon-video {
+.video-upload.default-icon, .file-icon-video {
   font-size: 40px;
   color: #252525;
 }
 
-.file-icon-video {
+.video-upload .file-icon-video {
   color: #0077b6;
 }
 
 /* Invisible file input field */
-.file-input {
+.video-upload.file-input {
   position: absolute;
   top: 0;
   left: 0;
@@ -107,7 +107,7 @@ input[type="text"]:focus {
 }
 
 /* Submit button */
-.submit-btn {
+.video-upload .submit-btn {
   width: 100%;
   padding: 14px 0;
   font-size: 18px;
@@ -121,7 +121,18 @@ input[type="text"]:focus {
 }
 
 /* Hover effect for the submit button */
-.submit-btn:hover {
+.video-upload .submit-btn:hover {
   background: linear-gradient(90deg, #0077b6, #00b4d8);
   box-shadow: 0 10px 20px rgba(0, 183, 255, 0.4);
+}
+.video-upload input[type="text"]::placeholder {
+  color: #ffffff; /* Light grey color for the placeholder */
+  opacity: 1; /* Ensure the placeholder is visible */
+}
+
+/* Hover effect for text input */
+.video-upload input[type="text"]:focus {
+  border-color: none;
+  outline: none;
+  background-color: transparent;
 }

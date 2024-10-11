@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Store videos in 'client/src/Videos' folder
     if (file.fieldname === "video") {
-      cb(null, path.join(__dirname, "../client/src/Vedios")); // Correct path for storing videos
+      cb(null, path.join(__dirname, "../Vedios")); // Correct path for storing videos
     } else {
       cb(new Error("Invalid fieldname"), null); // Reject invalid fieldnames
     }

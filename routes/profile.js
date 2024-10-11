@@ -9,7 +9,7 @@ const routerrees = express.Router();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.fieldname === "image") {
-      cb(null, path.join(__dirname, "../client/src/profile")); // Adjust this path to your project structure
+      cb(null, path.join(__dirname, "../Profile")); // Adjust this path to your project structure
     } else {
       cb(new Error("Invalid fieldname"), null);
     }

@@ -7,7 +7,7 @@ export default class Search extends Component {
     super(props);
 
     this.state = {
-      posts: [], 
+      posts: [],
       searchQuery: "",
       errorMessage: "",
     };
@@ -61,17 +61,23 @@ export default class Search extends Component {
         {/* Display the searched movies details */}
         <div className="card-container">
           {posts.map((post) => (
-            <a href={`/teacherweek/${post.card_id}`} className="card" key={post.card_id}>
+            <a
+              href={`/teacherweek/${post.card_id}`}
+              className="card"
+              key={post.card_id}
+            >
               <div className="card-image">
                 <img
-                  src={post.image ? require(`../uploads/${post.image}`) : ""}
-                  alt={post.image}
+                  src={
+                    post.image
+                      ? `http://localhost:9001/Uploads/${post.image}`
+                      : ""
+                  }
+                  alt={post.image ? post.image : "No Image"}
                 />
               </div>
               <div className="card-header">
-                <h3>
-                  {post.title} 
-                </h3>
+                <h3>{post.title}</h3>
                 <p>{post.summery}</p>
               </div>
             </a>
