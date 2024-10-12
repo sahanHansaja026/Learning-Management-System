@@ -61,13 +61,9 @@ routerrees.post(
 routerrees.get("/profiles", async (req, res) => {
   try {
     const { email } = req.query;
-
-    // Validate that email is provided
     if (!email) {
       return res.status(400).json({ success: false, message: "Email is required" });
     }
-
-    // Find profile by email
     const userProfile = await Posts.findOne({ email });
 
     if (!userProfile) {

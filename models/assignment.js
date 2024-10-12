@@ -12,14 +12,29 @@ const postSchema = new Schema({
   assignment: {
     type: String,
   },
+  note_name: {
+    type: String,
+  },
+  note: {
+    type: String,
+  },
   createdAt: {
     type: Date,
-    default: Date.now, 
+    default: Date.now,
   },
   video_name: {
     type: String,
   },
   video: {
+    type: String,
+  },
+  quiz_id: {
+    type: String,
+  },
+  quiz_name: {
+    type: String,
+  },
+  description: {
     type: String,
   },
 });

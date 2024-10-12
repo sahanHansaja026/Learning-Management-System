@@ -12,7 +12,7 @@
 }
 
 .card {
-  background-color: rgb(100, 99, 99);
+  background-color: rgb(14, 18, 24);
   border-radius: 8px;
   overflow: hidden;
   padding: 0;
@@ -23,6 +23,7 @@
   flex-direction: column; 
   text-decoration: none; 
   transition: transform 0.2s;
+  border: 3px solid purple;
 }
 
 .card:hover {
@@ -48,9 +49,11 @@
 }
 
 .card-header h3 {
-  margin-left: 15px;
+  margin-left: 0px;
   font-size: 25px;
   font-weight: bold;
+  color: white;
+  margin-top: -20px;
 }
 
 .card-body {
@@ -58,9 +61,9 @@
 }
 
 
-.card-body p {
-  margin-top: 10px; 
-  font-size: 25px;
+.card-header p {
+  margin-top: -10px; 
+  font-size: 15px;
   color: #ccc; 
 }
 

@@ -88,3 +88,54 @@
   margin-right: 8px;
   color: #007bff;
 }
+.weeks .post-details p{
+  display: flex;
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: bold;
+}
+.assignment-header, .assignment-body {
+  color: red; /* Red text for assignment */
+}
+
+.assignment-body .FaFileAlt {
+  color: red; /* Red color for assignment icon */
+}
+
+/* Default color for other icons and texts */
+.assignment-card .FaVideo, .assignment-card .FaStickyNote, .assignment-card {
+  color: black; /* Black for other sections */
+}
+/* Style for the View Quiz button */
+.btn-view-quiz {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #4CAF50; /* Green color */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-view-quiz:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.btn-view-quiz:active {
+  background-color: #388e3c; /* Even darker green when clicked */
+}
+
+.btn-view-quiz svg {
+  margin-right: 8px; /* Space between the icon and text */
+}
+
+/* Optional: Styling for buttons in different contexts (if needed) */
+.btn-view-quiz:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}

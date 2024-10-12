@@ -88,5 +88,30 @@ routers.get("/posts/count", async (req, res) => {
   }
 });
 
+routers.get('/postes/:card_id', async (req, res) => {
+  try {
+    const cardId = req.params.card_id;
+    console.log("Card ID received:", cardId); // Log the card_id for debugging
+
+    // Fetching posts related to card_id and sorting by createdAt (descending)
+    const posts = await Posts.find({ card_id: cardId })
+                             .sort({ createdAt: -1 })
+                             .exec();
+
+    console.log("Posts found:", posts); // Log the results for debugging
+
+    if (!posts || posts.length === 0) {
+      return res.status(200).json({ success: true, message: "No posts found", posts: [] });
+    }
+
+    return res.status(200).json({ success: true, post: posts[0] });  // Return only the first post
+
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+
 
 module.exports = routers;

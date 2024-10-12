@@ -1,4 +1,3 @@
-/* General container for the video upload section */
 .video-upload {
   max-width: 500px;
   margin: 50px auto;
@@ -8,17 +7,15 @@
   border-radius: 15px;
 }
 
-/* Header for the video upload form */
 .video-upload h1 {
   text-align: center;
   color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 28px;
   margin-bottom: 25px;
   font-weight: bold;
 }
 
-/* Container for the input fields */
 .input-video-container {
   display: flex;
   flex-direction: column;
@@ -28,12 +25,11 @@
 .video-upload .input-form label {
   display: block;
   width: 100%;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
   color: #ffffff;
 }
 
-/* Text input for the video name */
 .video-upload input[type="text"] {
   width: 92.5%;
   padding: 12px 15px;
@@ -42,18 +38,16 @@
   border-radius: 12px;
   font-size: 16px;
   color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background: transparent;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-/* Hover effect for text input */
 .video-upload input[type="text"]:focus {
   outline: none;
   background-color: #eaf0f6;
 }
 
-/* Drag-and-drop area for the video file */
 .video-upload .file-drop-area {
   position: relative;
 }
@@ -68,13 +62,12 @@
   background: #e3f2fd;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #000000;
   text-align: center;
   box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Active state for drag-and-drop area */
 .video-upload .drop-area.active {
   background-color: #90e0ef;
   border-color: #0077b6;
@@ -85,8 +78,8 @@
   color: #252525;
 }
 
-/* Icons for the file type */
-.video-upload.default-icon, .file-icon-video {
+.video-upload.default-icon,
+.file-icon-video {
   font-size: 40px;
   color: #252525;
 }
@@ -95,7 +88,6 @@
   color: #0077b6;
 }
 
-/* Invisible file input field */
 .video-upload.file-input {
   position: absolute;
   top: 0;
@@ -106,12 +98,11 @@
   cursor: pointer;
 }
 
-/* Submit button */
 .video-upload .submit-btn {
   width: 100%;
   padding: 14px 0;
   font-size: 18px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #fff;
   background: linear-gradient(90deg, #00b4d8, #0077b6);
   border: none;
@@ -120,17 +111,15 @@
   box-shadow: 0 8px 15px rgba(0, 183, 255, 0.3);
 }
 
-/* Hover effect for the submit button */
 .video-upload .submit-btn:hover {
   background: linear-gradient(90deg, #0077b6, #00b4d8);
   box-shadow: 0 10px 20px rgba(0, 183, 255, 0.4);
 }
 .video-upload input[type="text"]::placeholder {
-  color: #ffffff; /* Light grey color for the placeholder */
-  opacity: 1; /* Ensure the placeholder is visible */
+  color: #ffffff; 
+  opacity: 1;
 }
 
-/* Hover effect for text input */
 .video-upload input[type="text"]:focus {
   border-color: none;
   outline: none;

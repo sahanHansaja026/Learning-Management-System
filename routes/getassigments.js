@@ -8,9 +8,9 @@ router.get('/activities/:card_id', async (req, res) => {
     const cardId = req.params.card_id; 
     console.log("Card ID received:", cardId); // Check the card_id
     
-    // Fetching posts related to card_id and sorting by createdAt (descending)
+    // Fetching posts related to card_id and sorting by createdAt (ascending)
     const posts = await Posts.find({ card_id: cardId })
-                             .sort({ createdAt: -1 })  // Sort by createdAt field in descending order
+                             .sort({ createdAt: 1 })  // Sort by createdAt field in ascending order
                              .exec();
     
     console.log("Posts found:", posts); // Log the results
@@ -25,5 +25,6 @@ router.get('/activities/:card_id', async (req, res) => {
     return res.status(500).json({ success: false, error: error.message }); 
   }
 });
+
 
 module.exports = router;

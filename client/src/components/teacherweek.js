@@ -1,103 +1,153 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import "../css/weeks.css";
-import { FaPlus, FaFileAlt, FaVideo } from "react-icons/fa"; // Icon imports
+import "../css/quiz.css";
 
-const AddPage = ({ setCardId }) => {
-  const { id } = useParams();
-  const [assignments, setAssignments] = useState([]);
+const Quiz = ({ quizId }) => {  // quizId is passed as a prop
+  const navigate = useNavigate();
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState("");
+  const [results, setResults] = useState([]);
+  const [answered, setAnswered] = useState(false);
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   useEffect(() => {
-    if (setCardId) {
-      setCardId(id); // Passing card_id to parent if necessary
-    }
-
-    const fetchAssignments = async () => {
+    const fetchPosts = async () => {
       try {
-        const response = await axios.get(`http://localhost:9001/activities/${id}`);
+        const response = await axios.get(`http://localhost:9000/post/quiz/${quizId}`);
         if (response.data.success) {
-          setAssignments(response.data.posts);
+          setPosts(response.data.posts);
+          setResults(new Array(response.data.posts.length).fill(null));
         } else {
-          setAssignments([]);
+          setError("Failed to load quiz questions.");
         }
-        setLoading(false);
       } catch (error) {
-        console.error("Error fetching assignments:", error);
+        setError("Error fetching quiz data. Please try again later.");
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchAssignments();
-  }, [id, setCardId]);
+    if (quizId) {
+      fetchPosts();
+    }
+  }, [quizId]);
 
-  const handleCreateActivity = () => {
-    window.location.href = `/add/${id}`;
+  const handleNext = () => {
+    if (answered) {
+      if (currentIndex < posts.length - 1) {
+        setCurrentIndex(currentIndex + 1);
+        resetQuestionState();
+      } else {
+        const score = results.filter((result) => result === true).length;
+        navigate(`/score/${quizId}`, { state: { score, total: posts.length } });
+      }
+    } else {
+      const post = posts[currentIndex];
+      const isCorrect = selectedAnswer === post.correct_answer;
+
+      // Update results
+      const updatedResults = [...results];
+      updatedResults[currentIndex] = isCorrect;
+      setResults(updatedResults);
+
+      setAnswered(true);
+      setShowCorrectAnswer(true);
+    }
   };
 
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+      resetQuestionState();
+    }
+  };
+
+  const resetQuestionState = () => {
+    setAnswered(false);
+    setShowCorrectAnswer(false);
+    setSelectedAnswer("");
+  };
+
+  const handleAnswerChange = (e) => {
+    setSelectedAnswer(e.target.value);
+  };
+
+  const handleQuestionClick = (index) => {
+    setCurrentIndex(index);
+    resetQuestionState();
+  };
+
+  if (loading) {
+    return <p className="loading">Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="error">Error: {error}</p>;
+  }
+
+  if (posts.length === 0) {
+    return <p>No questions found for this quiz ID.</p>;
+  }
+
+  const post = posts[currentIndex];
+
   return (
-    <div className="weeks">
-      <div className="weekshow">
-        <button className="btn-create" onClick={handleCreateActivity}>
-          <FaPlus /> Create New Activity
-        </button>
+    <div className="quiz-container">
+      <h1 className="quiz-title">Quiz Page</h1>
+
+      <div className="question-numbers">
+        {posts.map((_, index) => (
+          <button
+            key={index}
+            className={`question-number ${
+              results[index] === true ? "correct" : results[index] === false ? "incorrect" : ""
+            }`}
+            onClick={() => handleQuestionClick(index)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div> 
+      <div className="quiz-question">
+        <h2><b>{post.question}</b></h2>
+        <div className="quiz-answers">
+          {[post.answer_1, post.answer_2, post.answer_3, post.answer_4].map((answer, index) => (
+            <label key={index}>
+              <input
+                type="radio"
+                name="answer"
+                value={answer}
+                checked={selectedAnswer === answer}
+                onChange={handleAnswerChange}
+                disabled={answered}
+              />
+              {answer}
+            </label>
+          ))}
+        </div>
+
+        {showCorrectAnswer && (
+          <p className="correct-answer">
+            Correct Answer: {post.correct_answer}
+          </p>
+        )}
       </div>
 
-      {loading ? (
-        <p>Loading assignments...</p>
-      ) : (
-        <div className="assignments-container">
-          {assignments.length === 0 ? (
-            <p>No assignments found for this card_id</p>
-          ) : (
-            assignments.map((assignment) => (
-              <div key={assignment._id} className="assignment-card">
-                <div className="assignment-header">
-                  <p className="assignment-date">
-                    {new Date(assignment.createdAt).toLocaleString()}
-                  </p>
-                  <hr />
-                  <h3>{assignment.assignment_name}</h3>
-                </div>
-                <div className="assignment-body">
-                  {assignment.assignment && (
-                    <p>
-                      <FaFileAlt /> Assignment File:{" "}
-                      <a
-                         href={`http://localhost:9001/Assignmentfile/${assignment.assignment}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Download Assignment
-                      </a>
-                    </p>
-                  )}
-                  {assignment.video_name && assignment.video && (
-                    <div>
-                      <p>
-                        <FaVideo /> Video: {assignment.video_name}
-                      </p>
-                      <p>
-                        Video File:{" "}
-                        <a
-                          href={`http://localhost:9001/VideoFile/${assignment.video}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View Video
-                        </a>
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      )}
+      <div className="navigation-buttons">
+        <button className="previous-button" onClick={handlePrevious} disabled={currentIndex === 0}>
+          Previous
+        </button>
+
+        <button className="next-button" onClick={handleNext} disabled={!selectedAnswer && !answered}>
+          {answered ? (currentIndex === posts.length - 1 ? "Finish" : "Next") : "Submit"}
+        </button>
+      </div>
     </div>
   );
 };
 
-export default AddPage;
+export default Quiz;
