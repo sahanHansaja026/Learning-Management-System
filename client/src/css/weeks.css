@@ -94,18 +94,6 @@
   font-size: 40px;
   font-weight: bold;
 }
-.assignment-header, .assignment-body {
-  color: red; /* Red text for assignment */
-}
-
-.assignment-body .FaFileAlt {
-  color: red; /* Red color for assignment icon */
-}
-
-/* Default color for other icons and texts */
-.assignment-card .FaVideo, .assignment-card .FaStickyNote, .assignment-card {
-  color: black; /* Black for other sections */
-}
 /* Style for the View Quiz button */
 .btn-view-quiz {
   display: flex;
