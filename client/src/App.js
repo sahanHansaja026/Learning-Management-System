@@ -12,7 +12,7 @@ import AddPage from "./components/Add";
 import Assingment from "./components/assingment";
 import Note from "./components/note";
 import Video from "./components/video";
-import Search from "./pages/search";
+import Search from "./components/search";
 import CreateQuiz from "./components/create_quiz";
 import Create from "./components/create";
 import Quiz from "./components/quiz";

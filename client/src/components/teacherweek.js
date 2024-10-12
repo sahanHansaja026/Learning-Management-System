@@ -15,7 +15,6 @@ const AddPage = ({ setCardId }) => {
   const { id } = useParams();
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [post, setPost] = useState(null);
   const [postLoading, setPostLoading] = useState(true);
@@ -64,7 +63,6 @@ const AddPage = ({ setCardId }) => {
     const fetchUserData = async () => {
       try {
         const userData = await authService.getUserData();
-        setUsername(userData.username);
         setEmail(userData.email);
       } catch (error) {
         setErrorMessage("Failed to fetch user data");

@@ -70,7 +70,6 @@ function Navbar() {
               <Link to="/home">Home</Link>
               <Link to="/dashboard">Dashboard</Link>
               <Link to="/search">About Us</Link>
-              <Link to="/search">Search</Link>
               <Link to="/">Logout</Link>
             </>
           ) : (

@@ -165,4 +165,31 @@ routerrees.get("/userprofile/summary", async (req, res) => {
   }
 });
 
+// Route to get profile by email
+routerrees.get("/userprofile/summary/:email", async (req, res) => {
+  try {
+    const { email } = req.params; // Get email from the URL params
+
+    // Find the user profile based on email
+    const userProfile = await Posts.findOne({ email });
+
+    if (!userProfile) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Return the user's profile data
+    return res.status(200).json({
+      success: true,
+      first_name: userProfile.first_name,
+      last_name: userProfile.last_name,
+      job: userProfile.job,
+    });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return res.status(500).json({ error: "Server error, please try again" });
+  }
+});
+
+
+
 module.exports = routerrees;

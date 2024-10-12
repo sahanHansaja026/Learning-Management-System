@@ -112,6 +112,37 @@ routers.get('/postes/:card_id', async (req, res) => {
   }
 });
 
+// Get posts by email (using URL parameter)
+// routers.get("/posts/:email", async (req, res) => {
+  routers.get("/posts/:email", async (req, res) => {
+    try {
+      const { email } = req.params;
+      const { page = 1, limit = 10 } = req.query;  // Default to page 1 and limit 10
+  
+      const skip = (page - 1) * limit;  // Calculate how many documents to skip
+  
+      // Find posts by email with pagination
+      const posts = await Posts.find({ email: email })
+        .skip(skip)
+        .limit(parseInt(limit))
+        .sort({ _id: -1 })  // Sort by most recent
+        .exec();
+  
+      // Count total posts to calculate total pages
+      const totalPosts = await Posts.countDocuments({ email: email });
+  
+      return res.status(200).json({
+        success: true,
+        existingPosts: posts,
+        totalPosts,
+        totalPages: Math.ceil(totalPosts / limit),
+      });
+    } catch (error) {
+      console.error("Error fetching posts by email:", error);
+      return res.status(500).json({ error: "Server error, please try again" });
+    }
+  });
+  
 
 
 module.exports = routers;
