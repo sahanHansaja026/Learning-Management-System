@@ -16,6 +16,7 @@ const NoteRouter =require("./routes/notes");
 const Createquiz =require("./routes/create_quiz");
 const SaveQuestionRouter =require("./routes/question");
 const ScoreRoute = require("./routes/score");
+const EnrolleStudents = require("./routes/enrolle");
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -36,6 +37,7 @@ app.use(NoteRouter);
 app.use(Createquiz);
 app.use(SaveQuestionRouter);
 app.use(ScoreRoute);
+app.use(EnrolleStudents);
 
 // server.js or the relevant file
 app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));

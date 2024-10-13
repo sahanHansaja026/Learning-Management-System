@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "../css/home.css";
+import "../css/home.css"; // Make sure the CSS is correctly linked
 import { Link } from "react-router-dom";
 
 export default class Home extends Component {
@@ -124,12 +124,28 @@ export default class Home extends Component {
 
   render() {
     const { posts } = this.state;
-
+  
     return (
       <div className="home">
-        
+        <h1 style={{ color: "white", fontWeight: "bold" }}>My Modules</h1> {/* This is the H1 */}
         <br />
+        <div className="posts-list">
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <div key={post._id} className="post-card">
+                <h2>{post.title}</h2>
+                <p>{this.truncateSummary(post.summary)}</p>
+                <Link to={`/post/${post._id}`} className="view-more-link">
+                  View More
+                </Link>
+              </div>
+            ))
+          ) : (
+            <p>No posts available.</p>
+          )}
+        </div>
+        {this.renderPagination()}
       </div>
     );
   }
-}
+}  

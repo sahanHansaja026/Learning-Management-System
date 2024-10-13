@@ -156,7 +156,7 @@ export default class home_page extends Component {
             .sort((a, b) => new Date(b.date) - new Date(a.date))
             .map((post) => (
               <a
-                href={`/teacherweek/${post.card_id}`}
+                href={`/enrollestudent/${post.card_id}`}
                 className="card"
                 key={post.card_id}
               >

@@ -12,7 +12,7 @@ import MyModule from "../components/my_module";
 const Dashboard = () => {
   const [isGiftCardOpen, setIsGiftCardOpen] = useState(false);
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const [profileSummary, setProfileSummary] = useState(null);
 
   // Fetch user data when the component mounts
@@ -58,20 +58,14 @@ const Dashboard = () => {
       <aside className="sidebar">
         <h2>Dashboard</h2>
         <ul>
-          {profileSummary &&
-            (profileSummary.job === "Student" ||
-              profileSummary.job === "Parent") && (
-              <li>
-                <Link to="/dashboard/myenrollment">My Enrollment</Link>
-              </li>
-            )}
-          {profileSummary && profileSummary.job === "Teacher" && (
-            <li>
-              <Link to="/dashboard/my_modules">My Modules</Link>
-            </li>
-          )}
+          <li>
+            <Link to="/dashboard/myenrollment">My Enrollment</Link>
+          </li>
           <li>
             <Link to="/dashboard/create_card">Create Module</Link>
+          </li>
+          <li>
+            <Link to="/dashboard/my_modules">My Modules</Link>
           </li>
           <li>
             <Link to="/dashboard/search">Search Module</Link>
@@ -84,20 +78,17 @@ const Dashboard = () => {
       </aside>
 
       <main className="main-content">
-      
         <Routes>
           <Route path="/create_card" element={<Create />} />
           <Route path="/search" element={<Search />} />
-          <Route path="*" element={<Navigate to="/dashboard/my_modules" />} />
+          <Route path="*" element={<Navigate to="/dashboard/myenrollment" />} />
           <Route path="/myenrollment" element={<Enroll />} />
           <Route path="/my_modules" element={<MyModule />} />
         </Routes>
-        
       </main>
 
       {/* Render the GiftCard modal when the state is true */}
       {isGiftCardOpen && <GiftCard closeModal={closeGiftCardModal} />}
-     
     </div>
   );
 };

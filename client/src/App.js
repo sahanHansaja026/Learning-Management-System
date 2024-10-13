@@ -17,6 +17,7 @@ import CreateQuiz from "./components/create_quiz";
 import Create from "./components/create";
 import Quiz from "./components/quiz";
 import Score from "./components/score";
+import EnrolleStudent from "./pages/enrolle";
 
 const App = () => {
   const location = useLocation();
@@ -39,6 +40,7 @@ const App = () => {
         <Route exact path="/add_note/:id" element={<Note />} />
         <Route exact path="/add_vedio/:id" element={<Video />} />
         <Route exact path="/add_quiz/:id" element={<CreateQuiz />} />
+        <Route exact path="/enrollestudent/:id" element={<EnrolleStudent />} />
         <Route exact path="/create/:quizId" element={<Create />} />
         <Route exact path="/quiz/:quizId" element={<Quiz />} />
         <Route exact path="/score/:quizId" element={<Score />} />

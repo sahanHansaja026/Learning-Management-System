@@ -1,0 +1,73 @@
+/* Container styling for centering and layout */
+.enrolle-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Take full viewport height */
+    background: linear-gradient(135deg, #4a90e2, #9013fe); /* Gradient background */
+    padding: 20px;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+  }
+  
+  /* Heading Styling */
+  .enrolle-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    background: -webkit-linear-gradient(45deg, #ff6a00, #ee0979); /* Gradient text */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Email and Card ID display styling */
+  .enrolle-container p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  
+  /* Button Styling */
+  .enrolle-container button {
+    background-color: #ff6a00; /* Vivid orange */
+    border: none;
+    color: #fff;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  /* Button hover and active state */
+  .enrolle-container button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    background-color: #ee0979;
+  }
+  
+  .enrolle-container button:active {
+    transform: translateY(0);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Message Styling */
+  .enrolle-container .message {
+    font-size: 1.1rem;
+    color: #f0f0f0;
+    margin-top: 15px;
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2); /* Slight transparency */
+  }
+  
