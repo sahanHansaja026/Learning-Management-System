@@ -43,7 +43,7 @@
   .navbar-links {
     display: flex;
     gap: 15px;
-    margin-left: 800px;
+    margin-left: 1000px;
     font-weight: bold;
     font-size: 25px; 
   }

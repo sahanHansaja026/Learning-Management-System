@@ -8,6 +8,7 @@ import authService from "../services/authService";
 import axios from "axios";
 import Enroll from "../components/my_enrollement";
 import MyModule from "../components/my_module";
+import Calender from "../components/calender";
 
 const Dashboard = () => {
   const [isGiftCardOpen, setIsGiftCardOpen] = useState(false);
@@ -62,19 +63,25 @@ const Dashboard = () => {
             <Link to="/dashboard/myenrollment">My Enrollment</Link>
           </li>
           <li>
-            <Link to="/dashboard/create_card">Create Module</Link>
-          </li>
-          <li>
-            <Link to="/dashboard/my_modules">My Modules</Link>
-          </li>
-          <li>
             <Link to="/dashboard/search">Search Module</Link>
+          </li>
+          <li>
+            <Link to ="/dashboard/calender">Calender</Link>
           </li>
         </ul>
         {/* Button to open the gift card modal */}
         <button className="open-modal-btn" onClick={openGiftCardModal}>
           Open Gift Card
         </button>
+        <hr />
+        <ul>
+          <li>
+            <Link to="/dashboard/create_card">Create Module</Link>
+          </li>
+          <li>
+            <Link to="/dashboard/my_modules">My Modules</Link>
+          </li>
+        </ul>
       </aside>
 
       <main className="main-content">
@@ -84,6 +91,7 @@ const Dashboard = () => {
           <Route path="*" element={<Navigate to="/dashboard/myenrollment" />} />
           <Route path="/myenrollment" element={<Enroll />} />
           <Route path="/my_modules" element={<MyModule />} />
+          <Route path="/calender" element={<Calender/>}/>
         </Routes>
       </main>
 
