@@ -88,7 +88,7 @@ const Footer = () => {
       </div>
 
       <div className="bottom-bar">
-        &copy; 2024 MARK Techenologies | <a href="#">Privacy Policy</a> |{" "}
+         <a href="">&copy; 2024 MARK Techenologies |</a> <a href="#">Privacy Policy</a> |{" "}
         <a href="#">Terms of Service</a>
       </div>
     </footer>

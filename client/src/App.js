@@ -21,6 +21,7 @@ import EnrolleStudent from "./pages/enrolle";
 import CMS from "./components/add_cms";
 import WriteCms from "./components/CMS";
 import Footer from "./components/footer";
+import About from "./pages/about";
 
 const App = () => {
   const location = useLocation();
@@ -40,6 +41,7 @@ const App = () => {
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/search" element={<Search />} />
+        <Route exact path="/about" element={<About />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route exact path="/teacherweek/:id" element={<Teacherweek />} />
         <Route exact path="/add/:id" element={<AddPage />} />
