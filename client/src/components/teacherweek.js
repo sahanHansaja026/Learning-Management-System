@@ -19,7 +19,7 @@ const AddPage = ({ setCardId }) => {
   const [post, setPost] = useState(null);
   const [postLoading, setPostLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [cmsName, setCmsName] = useState(""); // State for CMS_name
+  const [cmsName, setCmsName] = useState("");
 
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const AddPage = ({ setCardId }) => {
         const response = await axios.get(`http://localhost:9001/postes/${id}`);
         if (response.data.success) {
           setPost(response.data.post);
-          setCmsName(response.data.post.cmsName || ""); // Assuming cmsName is in the post
+          setCmsName(response.data.post.cmsName || "");
         } else {
           setErrorMessage("Post not found");
         }
@@ -84,7 +84,7 @@ const AddPage = ({ setCardId }) => {
     navigate(`/quiz/${quiz_id}`);
   };
   const handleCMSClick = (CMS_id) => {
-    navigate(`/WriteCMS/${CMS_id}`); // Navigate to CMS page with card_id
+    navigate(`/WriteCMS/${CMS_id}`);
   };
 
   return (
@@ -102,10 +102,9 @@ const AddPage = ({ setCardId }) => {
       ) : post ? (
         <div className="post-details">
           <p>{post.title}</p>
-          {/* Display CMS_name */}
           {cmsName && (
             <div className="cms-name" onClick={handleCMSClick} style={{ cursor: 'pointer', color: 'blue' }}>
-              <h4>{cmsName}</h4> {/* Clickable CMS_name */}
+              <h4>{cmsName}</h4>
             </div>
           )}
         </div>
@@ -148,16 +147,20 @@ const AddPage = ({ setCardId }) => {
                       <h3>
                         <FaVideo /> Video: {assignment.video_name}
                       </h3>
-                      <p>
-                        Video File:{" "}
-                        <a
-                          href={`http://localhost:9001/VideoFile/${assignment.video}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View Video
-                        </a>
-                      </p>
+                      <center>
+                      <video
+                        width="320"
+                        height="240"
+                        controls
+                        style={{ border: "1px solid #ddd", borderRadius: "5px" }}
+                      >
+                        <source
+                          src={`http://localhost:9001/VideoFile/${assignment.video}`}
+                          type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                      </video>
+                      </center>
                     </div>
                   )}
                   {assignment.note_name && assignment.note && (
@@ -199,7 +202,7 @@ const AddPage = ({ setCardId }) => {
                         </h3>
                       </div>
                     )}
-                    {assignment.CMS_name &&
+                  {assignment.CMS_name &&
                     assignment.description &&
                     assignment.CMS_id && (
                       <div style={{ display: "flex" }}>
@@ -217,7 +220,7 @@ const AddPage = ({ setCardId }) => {
                           ></FaClipboardList>
                         </p>
                         <h3 style={{ color: "red", marginTop: "8px" }}>
-                         Writhing Assignment<br/> {assignment.CMS_name}
+                          Writhing Assignment<br /> {assignment.CMS_name}
                         </h3>
                       </div>
                     )}
