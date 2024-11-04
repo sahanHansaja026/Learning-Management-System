@@ -5,7 +5,7 @@ const User = require('../models/student');
 
 const router = express.Router();
 const saltRounds = 10;
-const secretKey = 'secretkey'; 
+const secretKey = 'secretkey';
 
 // Register User
 router.post('/register', async (req, res) => {
@@ -34,54 +34,57 @@ router.post('/register', async (req, res) => {
 
 // Login User
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
-    }
-  
-    try {
-      const user = await User.findOne({ email });
-      if (!user) return res.status(404).json({ error: 'User not found' });
-  
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(401).json({ error: 'Incorrect password' });
-  
-      const token = jwt.sign({ userId: user._id, username: user.username }, 'secretkey', { expiresIn: '12h' });
-  
-      res.status(200).json({ success: true, message: 'Login successful', token });
-    } catch (error) {
-      console.error('Error during login:', error);
-      res.status(500).json({ error: 'Server error' });
-    }
-  });
-  
-  
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ error: 'Incorrect password' });
+
+    // Set token to expire in 5 minutes
+    const token = jwt.sign({ userId: user._id, username: user.username }, secretKey, { expiresIn: '60m' });
+
+    res.status(200).json({ success: true, message: 'Login successful', token });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 // Middleware to verify JWT
 const verifyToken = async (req, res, next) => {
-    const token = req.headers['authorization'];
-    if (!token) return res.status(403).json({ error: 'No token provided' });
-  
-    try {
-      const decoded = jwt.verify(token, 'secretkey');
-      const user = await User.findById(decoded.userId);
-  
-      if (!user) return res.status(404).json({ error: 'User not found' });
-  
-      req.userId = user._id;
-      req.username = user.username;
-      req.email = user.email;
-      next();
-    } catch (err) {
+  const token = req.headers['authorization'];
+  if (!token) return res.status(403).json({ error: 'No token provided' });
+
+  try {
+    const decoded = jwt.verify(token, secretKey);
+    const user = await User.findById(decoded.userId);
+
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    req.userId = user._id;
+    req.username = user.username;
+    req.email = user.email;
+    next();
+  } catch (err) {
+    if (err.name === 'TokenExpiredError') {
+      res.status(401).json({ error: 'Token expired' });
+    } else {
       res.status(500).json({ error: 'Failed to authenticate token' });
     }
-  };
+  }
+};
 
 // Get User Data
 router.get('/me', verifyToken, (req, res) => {
-    res.status(200).json({ username: req.username, email: req.email });
-  });
-  
+  res.status(200).json({ username: req.username, email: req.email });
+});
 
 module.exports = router;

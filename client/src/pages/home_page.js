@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
 import Hero from "../images/hero.png";
 import "../css/home.css";
-import authService from "../services/authService"; // Assuming this is where you fetch user data
+import authService from "../services/authService";
 
 export default class home_page extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class home_page extends Component {
       postsPerPage: 3,
       username: "",
       email: "",
+      shareMenuVisible: null, // Track which card's share menu is open
     };
   }
 
@@ -25,7 +27,7 @@ export default class home_page extends Component {
 
   async fetchUserData() {
     try {
-      const userData = await authService.getUserData(); // Assuming this is the API for user data
+      const userData = await authService.getUserData();
       this.setState({
         username: userData.username,
         email: userData.email,
@@ -54,6 +56,17 @@ export default class home_page extends Component {
         console.error("Error fetching posts:", error);
       });
   }
+
+  toggleShareMenu = (cardId) => {
+    this.setState((prevState) => ({
+      shareMenuVisible: prevState.shareMenuVisible === cardId ? null : cardId,
+    }));
+  };
+
+  copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    alert("Link copied to clipboard!");
+  };
 
   renderPagination() {
     const { currentPage, totalPages } = this.state;
@@ -135,7 +148,7 @@ export default class home_page extends Component {
   }
 
   render() {
-    const { posts, username, email } = this.state;
+    const { posts, username, email, shareMenuVisible } = this.state;
     return (
       <div className="home">
         <div className="herobox">
@@ -155,26 +168,61 @@ export default class home_page extends Component {
           {posts
             .sort((a, b) => new Date(b.date) - new Date(a.date))
             .map((post) => (
-              <a
-                href={`/enrollestudent/${post.card_id}`}
-                className="card"
-                key={post.card_id}
-              >
-                <div className="card-image">
-                  <img
-                    src={
-                      post.image
-                        ? `http://localhost:9001/Uploads/${post.image}`
-                        : ""
-                    }
-                    alt={post.image ? post.image : "No Image"}
+              <div className="card" key={post.card_id}>
+                <a
+                  href={`/enrollestudent/${post.card_id}`}
+                  className="card-link"
+                >
+                  {shareMenuVisible === post.card_id && (
+                    <div className="share-options">
+                      <button
+                        onClick={() =>
+                          this.copyToClipboard(
+                            `${window.location.origin}/enrollestudent/${post.card_id}`
+                          )
+                        }
+                        className="share-option"
+                      >
+                        <FaLink color="white" /> URL
+                      </button>
+                      <a
+                        href={`https://wa.me/?text=Check out this module: ${window.location.origin}/enrollestudent/${post.card_id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="share-option"
+                      >
+                        <FaWhatsapp color="white" /> WhatsApp
+                      </a>
+                      <a
+                        href={`mailto:?subject=Check out this module&body=Here is a link to the module: ${window.location.origin}/enrollestudent/${post.card_id}`}
+                        className="share-option"
+                      >
+                        <FaEnvelope color="white" /> Email
+                      </a>
+                    </div>
+                  )}
+                  <div className="card-image">
+                    <img
+                      src={
+                        post.image
+                          ? `http://localhost:9001/Uploads/${post.image}`
+                          : ""
+                      }
+                      alt={post.image ? post.image : "No Image"}
+                    />
+                  </div>
+                  <div className="card-header">
+                    <h3>{post.title}</h3>
+                    <p>{this.truncateSummary(post.summery, 100)}</p>
+                  </div>
+                </a>
+                <div className="share-icon">
+                  <FaShareAlt
+                    color="white"
+                    onClick={() => this.toggleShareMenu(post.card_id)}
                   />
                 </div>
-                <div className="card-header">
-                  <h3>{post.title}</h3>
-                  <p>{this.truncateSummary(post.summery, 100)}</p>
-                </div>
-              </a>
+              </div>
             ))}
         </div>
         {this.renderPagination()}

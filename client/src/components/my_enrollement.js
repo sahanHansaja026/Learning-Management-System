@@ -3,6 +3,7 @@ import axios from "axios";
 import "../css/home.css";
 import authService from "../services/authService";
 import { Link } from "react-router-dom";
+import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
 
 export default class Home extends Component {
   constructor(props) {
@@ -13,19 +14,19 @@ export default class Home extends Component {
       email: "",
       currentPage: 1,
       totalPages: 1,
-      enrollmentsPerPage: 3, // Adjust to how many enrollments you want per page
-      posts: {}, // Store posts for each card_id here
+      enrollmentsPerPage: 3,
+      posts: {},
+      shareMenuVisible: null, // Track which post’s share menu is open
     };
   }
 
   async componentDidMount() {
-    const userData = await authService.getUserData(); // Assuming this returns user's email
+    const userData = await authService.getUserData();
     this.setState({ email: userData.email });
 
     this.retrieveEnrollmentsByEmail(userData.email);
   }
 
-  // Fetch enrollments based on the user's email
   retrieveEnrollmentsByEmail(email, page = 1) {
     const { enrollmentsPerPage } = this.state;
 
@@ -33,14 +34,16 @@ export default class Home extends Component {
       .get(`http://localhost:9001/enrollments/${email}?page=${page}&limit=${enrollmentsPerPage}`)
       .then((res) => {
         if (res.data.success) {
-          this.setState({
-            enrollments: res.data.enrollments,
-            currentPage: page,
-            totalPages: Math.ceil(res.data.enrollments.length / enrollmentsPerPage),
-          }, () => {
-            // After fetching enrollments, fetch posts for each enrollment
-            this.fetchPostsForEnrollments(res.data.enrollments);
-          });
+          this.setState(
+            {
+              enrollments: res.data.enrollments,
+              currentPage: page,
+              totalPages: Math.ceil(res.data.enrollments.length / enrollmentsPerPage),
+            },
+            () => {
+              this.fetchPostsForEnrollments(res.data.enrollments);
+            }
+          );
         } else {
           console.error("Error fetching enrollments:", res.data.message);
         }
@@ -50,7 +53,6 @@ export default class Home extends Component {
       });
   }
 
-  // Fetch posts for each enrollment
   fetchPostsForEnrollments(enrollments) {
     const posts = {};
     enrollments.forEach((enrollment) => {
@@ -68,11 +70,21 @@ export default class Home extends Component {
     });
   }
 
-  // Helper function to truncate the summary text
   truncateSummary(text, length) {
     if (text.length <= length) return text;
-    return text.slice(0, length) + '...';
+    return text.slice(0, length) + "...";
   }
+
+  toggleShareMenu = (postId) => {
+    this.setState((prevState) => ({
+      shareMenuVisible: prevState.shareMenuVisible === postId ? null : postId,
+    }));
+  };
+
+  copyToClipboard = (url) => {
+    navigator.clipboard.writeText(url);
+    alert("Link copied to clipboard!");
+  };
 
   renderPagination() {
     const { currentPage, totalPages } = this.state;
@@ -145,37 +157,62 @@ export default class Home extends Component {
   }
 
   render() {
-    const { enrollments, posts } = this.state;
-
-    // Convert the posts object into an array and sort them by date
+    const { enrollments, posts, shareMenuVisible } = this.state;
     const postArray = Object.values(posts).sort((a, b) => new Date(b.date) - new Date(a.date));
 
     return (
       <div className="enrolle">
-        <h1 style={{ color: "white", fontWeight:"bold" }}>My Enrollments</h1>
+        <h1 style={{ color: "white", fontWeight: "bold" }}>My Enrollments</h1>
         <div className="card-container">
           {postArray.length > 0 ? (
             postArray.map((post) => (
-              <a
-                href={`/teacherweek/${post.card_id}`}
-                className="card"
-                key={post.card_id}
-              >
-                <div className="card-image">
-                  <img
-                    src={
-                      post.image
-                        ? `http://localhost:9001/Uploads/${post.image}`
-                        : "default-image.jpg" // Fallback image if no image
-                    }
-                    alt={post.image ? post.image : "No Image"}
-                  />
+              <div className="card" key={post.card_id}>
+                <a href={`/teacherweek/${post.card_id}`} className="card-link">
+                  <div className="card-image">
+                    <img
+                      src={post.image ? `http://localhost:9001/Uploads/${post.image}` : "default-image.jpg"}
+                      alt={post.image ? post.image : "No Image"}
+                    />
+                  </div>
+                  <div className="card-header">
+                    <h3>{post.title}</h3>
+                    <p>{this.truncateSummary(post.summery, 100)}</p>
+                  </div>
+                </a>
+
+                {/* Share Icon */}
+                <div className="share-icon" onClick={() => this.toggleShareMenu(post.card_id)}>
+                  <FaShareAlt color="white" />
                 </div>
-                <div className="card-header">
-                  <h3>{post.title}</h3>
-                  <p>{this.truncateSummary(post.summery, 100)}</p>
-                </div>
-              </a>
+
+                {/* Share Menu */}
+                {shareMenuVisible === post.card_id && (
+                  <div className="share-options">
+                    <button
+                      onClick={() =>
+                        this.copyToClipboard(`${window.location.origin}/teacherweek/${post.card_id}`)
+                      }
+                      className="share-option"
+                    >
+                      <FaLink color="white" /> Copy Link
+                    </button>
+                    <a
+                      href={`https://wa.me/?text=Check out this module: ${window.location.origin}/teacherweek/${post.card_id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="share-option"
+                    >
+                      <FaWhatsapp color="white" /> WhatsApp
+                    </a>
+                    <a
+                      href={`mailto:?subject=Check out this module&body=Here is a link to the module: ${window.location.origin}/teacherweek/${post.card_id}`}
+                      className="share-option"
+                    >
+                      <FaEnvelope color="white" /> Email
+                    </a>
+                  </div>
+                )}
+              </div>
             ))
           ) : (
             <p>No posts available.</p>
@@ -184,7 +221,6 @@ export default class Home extends Component {
 
         <br />
 
-        {/* Render pagination */}
         {this.renderPagination()}
       </div>
     );

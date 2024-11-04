@@ -24,7 +24,9 @@ const AddPage = ({ setCardId }) => {
   const handleCreateActivity4 = () => {
     navigate(`/add_note/${id}`);
   };
-
+  const handleCreateActivity5 = () => {
+    navigate(`/add_cms/${id}`);
+  };
   return (
     <div className="item">
       {/* <p>Your unique post ID is: {id}</p> */}
@@ -42,6 +44,10 @@ const AddPage = ({ setCardId }) => {
       <br />
       <button className="btn btn-success" onClick={handleCreateActivity4}>
         <i className="fa fa-plus"></i>&nbsp;Add Lecher Note
+      </button>
+      <br/>
+      <button className="btn btn-success" onClick={handleCreateActivity5}>
+        <i className="fa fa-plus"></i>&nbsp;Add CMS
       </button>
     </div>
   );

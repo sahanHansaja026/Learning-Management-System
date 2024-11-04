@@ -25,7 +25,7 @@ function Login() {
       localStorage.setItem("token", response.data.token);
 
       // Navigate to the home page upon successful login
-      navigate("/home");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login failed", error);
       if (error.response) {

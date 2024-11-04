@@ -37,6 +37,12 @@ const postSchema = new Schema({
   description: {
     type: String,
   },
+  CMS_id: {
+    type: String,
+  },
+  CMS_name: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Assignment_details", postSchema);

@@ -9,6 +9,15 @@ import axios from "axios";
 import Enroll from "../components/my_enrollement";
 import MyModule from "../components/my_module";
 import Calender from "../components/calender";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserGraduate,
+  faSearch,
+  faCalendarAlt,
+  faGift,
+  faPlusCircle,
+  faFolderOpen
+} from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
   const [isGiftCardOpen, setIsGiftCardOpen] = useState(false);
@@ -16,11 +25,10 @@ const Dashboard = () => {
   const [username, setUsername] = useState("");
   const [profileSummary, setProfileSummary] = useState(null);
 
-  // Fetch user data when the component mounts
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userData = await authService.getUserData(); // Adjust path as necessary
+        const userData = await authService.getUserData();
         setEmail(userData.email);
       } catch (error) {
         console.error("Failed to fetch user data", error);
@@ -29,7 +37,6 @@ const Dashboard = () => {
     fetchUserData();
   }, []);
 
-  // Fetch profile summary based on the email
   useEffect(() => {
     if (email) {
       const fetchProfileSummary = async () => {
@@ -37,14 +44,14 @@ const Dashboard = () => {
           const response = await axios.get(
             `http://localhost:9001/userprofile/summary/${email}`
           );
-          setProfileSummary(response.data); // Save the profile information
+          setProfileSummary(response.data);
         } catch (error) {
           console.error("Failed to fetch profile information", error);
         }
       };
       fetchProfileSummary();
     }
-  }, [email]); // This effect will run when the email is set
+  }, [email]);
 
   const openGiftCardModal = () => {
     setIsGiftCardOpen(true);
@@ -60,26 +67,35 @@ const Dashboard = () => {
         <h2>Dashboard</h2>
         <ul>
           <li>
-            <Link to="/dashboard/myenrollment">My Enrollment</Link>
+            <Link to="/dashboard/myenrollment">
+              <FontAwesomeIcon icon={faUserGraduate} /> My Enrollment
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard/search">Search Module</Link>
+            <Link to="/dashboard/search">
+              <FontAwesomeIcon icon={faSearch} /> Search Module
+            </Link>
           </li>
           <li>
-            <Link to ="/dashboard/calender">Calender</Link>
+            <Link to="/dashboard/calender">
+              <FontAwesomeIcon icon={faCalendarAlt} /> Calendar
+            </Link>
           </li>
         </ul>
-        {/* Button to open the gift card modal */}
         <button className="open-modal-btn" onClick={openGiftCardModal}>
-          Open Gift Card
+          <FontAwesomeIcon icon={faGift} /> Open Gift Card
         </button>
         <hr />
         <ul>
           <li>
-            <Link to="/dashboard/create_card">Create Module</Link>
+            <Link to="/dashboard/create_card">
+              <FontAwesomeIcon icon={faPlusCircle} /> Create Module
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard/my_modules">My Modules</Link>
+            <Link to="/dashboard/my_modules">
+              <FontAwesomeIcon icon={faFolderOpen} /> My Creation
+            </Link>
           </li>
         </ul>
       </aside>
@@ -91,11 +107,10 @@ const Dashboard = () => {
           <Route path="*" element={<Navigate to="/dashboard/myenrollment" />} />
           <Route path="/myenrollment" element={<Enroll />} />
           <Route path="/my_modules" element={<MyModule />} />
-          <Route path="/calender" element={<Calender/>}/>
+          <Route path="/calender" element={<Calender />} />
         </Routes>
       </main>
 
-      {/* Render the GiftCard modal when the state is true */}
       {isGiftCardOpen && <GiftCard closeModal={closeGiftCardModal} />}
     </div>
   );

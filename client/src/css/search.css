@@ -25,7 +25,9 @@
   transition: transform 0.2s;
   border: 3px solid purple;
 }
-
+.card a{
+  text-decoration: none;
+}
 .card:hover {
   transform: scale(1.02); 
 }

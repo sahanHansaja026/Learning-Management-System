@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom"; // Use useNavigate for redirection
+import { useParams, useNavigate } from "react-router-dom";
 import "../css/weeks.css";
 import authService from "../services/authService";
 import {
@@ -19,8 +19,9 @@ const AddPage = ({ setCardId }) => {
   const [post, setPost] = useState(null);
   const [postLoading, setPostLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [cmsName, setCmsName] = useState(""); // State for CMS_name
 
-  const navigate = useNavigate(); // Use navigate for redirection
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (setCardId) {
@@ -32,6 +33,7 @@ const AddPage = ({ setCardId }) => {
         const response = await axios.get(`http://localhost:9001/postes/${id}`);
         if (response.data.success) {
           setPost(response.data.post);
+          setCmsName(response.data.post.cmsName || ""); // Assuming cmsName is in the post
         } else {
           setErrorMessage("Post not found");
         }
@@ -79,7 +81,10 @@ const AddPage = ({ setCardId }) => {
   };
 
   const handleQuizClick = (quiz_id) => {
-    navigate(`/quiz/${quiz_id}`); // Use navigate for redirection
+    navigate(`/quiz/${quiz_id}`);
+  };
+  const handleCMSClick = (CMS_id) => {
+    navigate(`/WriteCMS/${CMS_id}`); // Navigate to CMS page with card_id
   };
 
   return (
@@ -97,6 +102,12 @@ const AddPage = ({ setCardId }) => {
       ) : post ? (
         <div className="post-details">
           <p>{post.title}</p>
+          {/* Display CMS_name */}
+          {cmsName && (
+            <div className="cms-name" onClick={handleCMSClick} style={{ cursor: 'pointer', color: 'blue' }}>
+              <h4>{cmsName}</h4> {/* Clickable CMS_name */}
+            </div>
+          )}
         </div>
       ) : (
         <p>{errorMessage}</p>
@@ -183,7 +194,31 @@ const AddPage = ({ setCardId }) => {
                             style={{ color: "red", marginRight: "10px" }}
                           ></FaClipboardList>
                         </p>
-                        <h3 style={{ color: "red", marginTop:"8px" }}>{assignment.quiz_name}</h3>
+                        <h3 style={{ color: "red", marginTop: "8px" }}>
+                          {assignment.quiz_name}
+                        </h3>
+                      </div>
+                    )}
+                    {assignment.CMS_name &&
+                    assignment.description &&
+                    assignment.CMS_id && (
+                      <div style={{ display: "flex" }}>
+                        <p
+                          style={{
+                            color: "red",
+                            display: "flex",
+                            fontSize: "10px",
+                          }}
+                        >
+                          <FaClipboardList
+                            onClick={() => handleCMSClick(assignment.CMS_id)}
+                            className="quiz-title"
+                            style={{ color: "red", marginRight: "10px" }}
+                          ></FaClipboardList>
+                        </p>
+                        <h3 style={{ color: "red", marginTop: "8px" }}>
+                         Writhing Assignment<br/> {assignment.CMS_name}
+                        </h3>
                       </div>
                     )}
                 </div>

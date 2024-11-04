@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Landing_Page from "./pages/landing_page";
 import NavBar from "./components/navbar";
@@ -18,21 +18,28 @@ import Create from "./components/create";
 import Quiz from "./components/quiz";
 import Score from "./components/score";
 import EnrolleStudent from "./pages/enrolle";
+import CMS from "./components/add_cms";
+import WriteCms from "./components/CMS";
+import Footer from "./components/footer";
 
 const App = () => {
   const location = useLocation();
 
-  const noNavBarPaths = ["/","/login","/registar"];
+  const noNavBarPaths = ["/", "/login", "/registar"];
+  const noFooterPaths = ["/login", "/registar", "/dashboard"];
+
+  const shouldShowFooter = !noFooterPaths.some(path => location.pathname.startsWith(path));
+
   return (
     <div className="container">
       {!noNavBarPaths.includes(location.pathname) && <NavBar />}
       <Routes>
         <Route exact path="/" element={<Landing_Page />} />
         <Route exact path="/login" element={<Login />} />
-        <Route exact path="/registar" element={<Regestar/>}/>
-        <Route exact path="/profile" element={<Profile/>}/>
-        <Route exact path="/home" element={<Home/>}/>
-        <Route exact path="/search" element={<Search/>}/>
+        <Route exact path="/registar" element={<Regestar />} />
+        <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/search" element={<Search />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route exact path="/teacherweek/:id" element={<Teacherweek />} />
         <Route exact path="/add/:id" element={<AddPage />} />
@@ -40,14 +47,18 @@ const App = () => {
         <Route exact path="/add_note/:id" element={<Note />} />
         <Route exact path="/add_vedio/:id" element={<Video />} />
         <Route exact path="/add_quiz/:id" element={<CreateQuiz />} />
+        <Route exact path="/add_cms/:id" element={<CMS />} />
         <Route exact path="/enrollestudent/:id" element={<EnrolleStudent />} />
         <Route exact path="/create/:quizId" element={<Create />} />
         <Route exact path="/quiz/:quizId" element={<Quiz />} />
+        <Route exact path="/WriteCMS/:CMS_id" element={<WriteCms />} />
         <Route exact path="/score/:quizId" element={<Score />} />
       </Routes>
+      {shouldShowFooter && <Footer />}
     </div>
   );
 };
+
 export default () => (
   <BrowserRouter>
     <App />
