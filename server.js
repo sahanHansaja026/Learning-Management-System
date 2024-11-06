@@ -12,14 +12,16 @@ const AssignmentRouter = require("./routes/assignment");
 const VideoRouter = require("./routes/vedio");
 const GetmoduledeatailsRouter = require("./routes/getassigments");
 const SerachRouter = require("./routes/search");
-const NoteRouter =require("./routes/notes");
-const Createquiz =require("./routes/create_quiz");
-const SaveQuestionRouter =require("./routes/question");
+const NoteRouter = require("./routes/notes");
+const Createquiz = require("./routes/create_quiz");
+const SaveQuestionRouter = require("./routes/question");
 const ScoreRoute = require("./routes/score");
 const EnrolleStudents = require("./routes/enrolle");
-const cmsRoute =require("./routes/CMS");
+const cmsRoute = require("./routes/CMS");
 const CMSSaveRoute = require("./routes/savecms");
 const UserCountRoute = require("./routes/usercount");
+const PogressRoute = require("./routes/progress");
+const ChenalCreateRoute = require("./routes/create_chanel");
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -44,6 +46,10 @@ app.use(EnrolleStudents);
 app.use(cmsRoute);
 app.use(CMSSaveRoute);
 app.use(UserCountRoute);
+app.use(PogressRoute);
+
+//for chanel
+app.use(ChenalCreateRoute);
 
 // server.js or the relevant file
 app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));
@@ -51,12 +57,15 @@ app.use("/Profileimge", express.static(path.join(__dirname, "Profile")));
 app.use("/Assignmentfile", express.static(path.join(__dirname, "Assignments")));
 app.use("/VideoFile", express.static(path.join(__dirname, "Vedios")));
 app.use("/NotesFile", express.static(path.join(__dirname, "Notes")));
-
+app.use("/ChenalsFile", express.static(path.join(__dirname, "chenals")));
 mongoose
-  .connect("mongodb+srv://sahanhansaja026:GskrGiGY06A71N7Y@cluster0.y3y7q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://sahanhansaja026:GskrGiGY06A71N7Y@cluster0.y3y7q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
     console.log("connected to mongodb successfully");
 

@@ -54,7 +54,7 @@ const Footer = () => {
               <a href="#">Web Development</a>
             </li>
             <li>
-              <FontAwesomeIcon icon={faMobileAlt} /> <a href="#">Mobile Apps</a>
+              <FontAwesomeIcon icon={faMobileAlt} /> <a href="">Mobile Apps</a>
             </li>
             <li>
               <FontAwesomeIcon icon={faCloud} /> <a href="#">Cloud Services</a>
@@ -88,7 +88,7 @@ const Footer = () => {
       </div>
 
       <div className="bottom-bar">
-         <a href="">&copy; 2024 MARK Techenologies |</a> <a href="#">Privacy Policy</a> |{" "}
+         <a href="https://sahan026.github.io/portfolio/">&copy; 2024 MARK Techenologies |</a> <a href="#">Privacy Policy</a> |{" "}
         <a href="#">Terms of Service</a>
       </div>
     </footer>

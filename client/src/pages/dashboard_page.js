@@ -9,6 +9,8 @@ import axios from "axios";
 import Enroll from "../components/my_enrollement";
 import MyModule from "../components/my_module";
 import Calender from "../components/calender";
+import Chanel from "../chanel/chanel";
+import Mychenal from "../chanel/mychenal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserGraduate,
@@ -16,7 +18,9 @@ import {
   faCalendarAlt,
   faGift,
   faPlusCircle,
-  faFolderOpen
+  faFolderOpen,
+  faYoutube,
+  faTv,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
@@ -72,6 +76,11 @@ const Dashboard = () => {
             </Link>
           </li>
           <li>
+            <Link to="/dashboard/mychenal">
+              <FontAwesomeIcon icon={faTv} /> My Chanel
+            </Link>
+          </li>
+          <li>
             <Link to="/dashboard/search">
               <FontAwesomeIcon icon={faSearch} /> Search Module
             </Link>
@@ -97,6 +106,11 @@ const Dashboard = () => {
               <FontAwesomeIcon icon={faFolderOpen} /> My Creation
             </Link>
           </li>
+          <li>
+            <Link to="/dashboard/chenal">
+              <FontAwesomeIcon icon={faTv} /> Create chanel
+            </Link>
+          </li>
         </ul>
       </aside>
 
@@ -108,6 +122,8 @@ const Dashboard = () => {
           <Route path="/myenrollment" element={<Enroll />} />
           <Route path="/my_modules" element={<MyModule />} />
           <Route path="/calender" element={<Calender />} />
+          <Route path="/chenal" element={<Chanel />} />
+          <Route path="/mychenal" element={<Mychenal />} />
         </Routes>
       </main>
 

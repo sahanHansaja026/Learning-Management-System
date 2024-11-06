@@ -20,6 +20,7 @@ const AddPage = ({ setCardId }) => {
   const [postLoading, setPostLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [cmsName, setCmsName] = useState("");
+  const [progress, setProgress] = useState({}); // Store progress data
 
   const navigate = useNavigate();
 
@@ -66,6 +67,22 @@ const AddPage = ({ setCardId }) => {
       try {
         const userData = await authService.getUserData();
         setEmail(userData.email);
+
+        // Fetch progress for each assignment
+        const progressData = {};
+        for (const assignment of assignments) {
+          try {
+            const res = await axios.get(
+              `http://localhost:9001/user-activities/${userData.email}/${assignment._id}`
+            );
+            if (res.data.success) {
+              progressData[assignment._id] = res.data.activity.completed;
+            }
+          } catch (error) {
+            console.error(`Error fetching progress for ${assignment._id}:`, error);
+          }
+        }
+        setProgress(progressData);
       } catch (error) {
         setErrorMessage("Failed to fetch user data");
       }
@@ -81,10 +98,29 @@ const AddPage = ({ setCardId }) => {
   };
 
   const handleQuizClick = (quiz_id) => {
+    markProgress(quiz_id);
     navigate(`/quiz/${quiz_id}`);
   };
+
   const handleCMSClick = (CMS_id) => {
+    markProgress(CMS_id);
     navigate(`/WriteCMS/${CMS_id}`);
+  };
+
+  const markProgress = async (activity_id) => {
+    try {
+      await axios.post("http://localhost:9001/progress", {
+        email,
+        activity_id,
+      });
+      setProgress({ ...progress, [activity_id]: true });
+    } catch (error) {
+      console.error("Error marking progress:", error);
+    }
+  };
+
+  const handleAssignmentClick = (assignment_id) => {
+    markProgress(assignment_id);
   };
 
   return (
@@ -103,7 +139,11 @@ const AddPage = ({ setCardId }) => {
         <div className="post-details">
           <p>{post.title}</p>
           {cmsName && (
-            <div className="cms-name" onClick={handleCMSClick} style={{ cursor: 'pointer', color: 'blue' }}>
+            <div
+              className="cms-name"
+              onClick={handleCMSClick}
+              style={{ cursor: "pointer", color: "blue" }}
+            >
               <h4>{cmsName}</h4>
             </div>
           )}
@@ -120,7 +160,11 @@ const AddPage = ({ setCardId }) => {
             <p>No assignments found for this card_id</p>
           ) : (
             assignments.map((assignment) => (
-              <div key={assignment._id} className="assignment-card">
+              <div
+                key={assignment._id}
+                className={`assignment-card ${progress[assignment._id] ? "completed" : ""}`}
+                onClick={() => handleAssignmentClick(assignment._id)}
+              >
                 <div className="assignment-header">
                   <p className="assignment-date">
                     {new Date(assignment.createdAt).toLocaleString()}
@@ -148,18 +192,22 @@ const AddPage = ({ setCardId }) => {
                         <FaVideo /> Video: {assignment.video_name}
                       </h3>
                       <center>
-                      <video
-                        width="320"
-                        height="240"
-                        controls
-                        style={{ border: "1px solid #ddd", borderRadius: "5px" }}
-                      >
-                        <source
-                          src={`http://localhost:9001/VideoFile/${assignment.video}`}
-                          type="video/mp4"
-                        />
-                        Your browser does not support the video tag.
-                      </video>
+                        <video
+                          width="320"
+                          height="240"
+                          controls
+                          style={{
+                            border: "1px solid #ddd",
+                            borderRadius: "5px",
+                          }}
+                          onPlay={() => markProgress(assignment._id)}
+                        >
+                          <source
+                            src={`http://localhost:9001/VideoFile/${assignment.video}`}
+                            type="video/mp4"
+                          />
+                          Your browser does not support the video tag.
+                        </video>
                       </center>
                     </div>
                   )}
@@ -174,6 +222,7 @@ const AddPage = ({ setCardId }) => {
                           href={`http://localhost:9001/NotesFile/${assignment.note}`}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => markProgress(assignment._id)}
                         >
                           Download Notes
                         </a>
@@ -220,7 +269,7 @@ const AddPage = ({ setCardId }) => {
                           ></FaClipboardList>
                         </p>
                         <h3 style={{ color: "red", marginTop: "8px" }}>
-                          Writhing Assignment<br /> {assignment.CMS_name}
+                          Writing Assignment<br /> {assignment.CMS_name}
                         </h3>
                       </div>
                     )}

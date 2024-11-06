@@ -23,6 +23,9 @@ import WriteCms from "./components/CMS";
 import Footer from "./components/footer";
 import About from "./pages/about";
 
+//for chenals
+import ChenaHome from "./chanel/chenal_home";
+
 const App = () => {
   const location = useLocation();
 
@@ -55,6 +58,8 @@ const App = () => {
         <Route exact path="/quiz/:quizId" element={<Quiz />} />
         <Route exact path="/WriteCMS/:CMS_id" element={<WriteCms />} />
         <Route exact path="/score/:quizId" element={<Score />} />
+        {/* for chenal */}
+        <Route exact path="/chenalhome/:id" element={<ChenaHome />} />
       </Routes>
       {shouldShowFooter && <Footer />}
     </div>

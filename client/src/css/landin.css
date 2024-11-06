@@ -256,3 +256,41 @@
   height: 159px; /* Height of the vertical bar */
   background-color: #000000; /* Color of the bar */
 }
+@media (max-width: 600px) {
+  .landing {
+    background-color: #000000; /* Change background color for better readability */
+    height: auto; /* Adjust height for better content fitting */
+    margin-bottom: 0; 
+    display: contents;/* Remove negative margin to avoid layout issues */
+  }
+  .landing .silinder,.subcontainer{
+    display: none;
+  }
+  .landing .boxcontainer{
+    display: contents;
+  }
+  .landing .title button{
+    margin-left: 500px;
+    width: 450px;
+    font-size: 25px;
+    height: 50px;
+  }
+  .landing .mainheddr{
+    margin-left: 0px;
+    flex-direction: row;
+  }
+  .landing .mainheddr h1{
+    font-size: 32px;
+    margin-bottom: 50px;
+    
+  }
+  .landing .mainheddr p{
+    font-size: 12px;
+  }
+  .landbox{
+    display: none;
+  }
+  .landbox p{
+    display: none;
+  }
+}
