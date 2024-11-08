@@ -22,6 +22,7 @@ const CMSSaveRoute = require("./routes/savecms");
 const UserCountRoute = require("./routes/usercount");
 const PogressRoute = require("./routes/progress");
 const ChenalCreateRoute = require("./routes/create_chanel");
+const ChenalModule = require("./routes/chanelmodule");
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -50,6 +51,7 @@ app.use(PogressRoute);
 
 //for chanel
 app.use(ChenalCreateRoute);
+app.use(ChenalModule);
 
 // server.js or the relevant file
 app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));

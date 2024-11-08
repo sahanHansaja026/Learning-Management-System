@@ -52,3 +52,7 @@
   .b {
     text-indent: 100px;
   }
+  .showingcard img{
+    width: 450px;
+    height: 450px;
+  }

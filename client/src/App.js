@@ -25,6 +25,9 @@ import About from "./pages/about";
 
 //for chenals
 import ChenaHome from "./chanel/chenal_home";
+import MOduleOwner from "./chanel/moduleowner";
+import ChenalEnrollment from "./chanel/chenalenrollement";
+import CheanelHome from "./chanel/chenal_home";
 
 const App = () => {
   const location = useLocation();
@@ -32,7 +35,9 @@ const App = () => {
   const noNavBarPaths = ["/", "/login", "/registar"];
   const noFooterPaths = ["/login", "/registar", "/dashboard"];
 
-  const shouldShowFooter = !noFooterPaths.some(path => location.pathname.startsWith(path));
+  const shouldShowFooter = !noFooterPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   return (
     <div className="container">
@@ -60,6 +65,9 @@ const App = () => {
         <Route exact path="/score/:quizId" element={<Score />} />
         {/* for chenal */}
         <Route exact path="/chenalhome/:id" element={<ChenaHome />} />
+        <Route exact path="/moduleowner/:id" element={<MOduleOwner />} />
+        <Route exact path="/chenalenrollement/:id" element={<ChenalEnrollment />} />
+        <Route exact path="/chenalhome/:id" element={<CheanelHome />} />
       </Routes>
       {shouldShowFooter && <Footer />}
     </div>

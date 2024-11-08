@@ -3,7 +3,7 @@ import axios from "axios";
 import { withNavigation } from "../utils/withNavigation";
 import authService from "../services/authService";
 import { v4 as uuidv4 } from "uuid";
-import "../css/chenalinput.css";
+import "../css/input.css";
 import defaultImage from "../images/card.png";
 
 class CreateCard extends Component {
@@ -14,8 +14,9 @@ class CreateCard extends Component {
       newPost: {
         id: "",
         title: "",
+        owneremail: "",
         summery: "",
-        chenal_id: "",
+        card_id: "",
         image: null,
       },
       userEmail: "",
@@ -23,7 +24,6 @@ class CreateCard extends Component {
       imagePreview: defaultImage,
     };
     this.fileInputRef = React.createRef();
-    this.textareaRef = React.createRef(); // Reference for textarea
   }
 
   async componentDidMount() {
@@ -43,11 +43,13 @@ class CreateCard extends Component {
 
   retrievePosts() {
     axios
-      .get("http://localhost:9001/ch")
+      .get("http://localhost:9001/chenalposts")
       .then((res) => {
         if (res.data.success) {
           this.setState({ posts: res.data.existingPosts });
+          console.log("Posts retrieved successfully:", this.state.posts);
         } else {
+          console.error("Error fetching posts:", res.data.error);
           this.setState({ errorMessage: res.data.error });
         }
       })
@@ -70,62 +72,58 @@ class CreateCard extends Component {
 
   handleImageChange = (event) => {
     const file = event.target.files[0];
-
-    if (file) {
-      const maxSizeInMB = 2;
-      const maxFileSize = maxSizeInMB * 1024 * 1024;
-
-      if (file.size > maxFileSize) {
-        this.setState({
-          errorMessage: `File size should be less than ${maxSizeInMB} MB.`,
-        });
-        return;
-      }
-
-      this.setState({
-        newPost: {
-          ...this.state.newPost,
-          image: file,
-        },
-        imagePreview: URL.createObjectURL(file),
-        errorMessage: "",
-      });
-    }
+    this.setState({
+      newPost: {
+        ...this.state.newPost,
+        image: file,
+      },
+      imagePreview: file ? URL.createObjectURL(file) : defaultImage,
+      errorMessage: "",
+    });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { title, summery, image } = this.state.newPost;
-    if (!title || !summery || !image) {
-      this.setState({ errorMessage: "Please fill in all required fields." });
+    const { title, owneremail, summery, image } = this.state.newPost;
+    if (!title || !owneremail || !summery || !image) {
+      alert("Please fill in all required fields.");
       return;
     }
 
     const newPostId = uuidv4();
     const formData = new FormData();
     formData.append("id", newPostId);
-    formData.append("chenal_id", newPostId);
+    formData.append("card_id", newPostId);
     formData.append("email", this.state.userEmail);
     formData.append("title", title);
+    formData.append("owneremail", owneremail);
     formData.append("summery", summery);
     formData.append("image", image);
 
     axios
-      .post("http://localhost:9001/chanel/save", formData, {
+      .post("http://localhost:9001/chenelsposts/save", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => {
         if (res.data.success) {
+          console.log("Post added successfully");
           this.setState({
-            newPost: { id: "", title: "", summery: "", image: null },
+            newPost: {
+              id: "",
+              title: "",
+              owneremail: "",
+              summery: "",
+              image: null,
+            },
             imagePreview: defaultImage,
           });
           this.retrievePosts();
-          this.props.navigate(`/dashboard/mychenal`);
+          this.props.navigate(`/moduleowner/${newPostId}`);
         } else {
+          console.error("Error adding post:", res.data.error);
           this.setState({ errorMessage: res.data.error });
         }
       })
@@ -139,17 +137,9 @@ class CreateCard extends Component {
     this.fileInputRef.current.click();
   };
 
-  // Function to auto-adjust textarea height
-  handleTextareaChange = () => {
-    const textarea = this.textareaRef.current;
-    textarea.style.height = "auto"; // Reset the height
-    textarea.style.height = `${textarea.scrollHeight}px`; // Adjust the height
-  };
-
   render() {
     return (
       <div>
-        <h1>Create Your Own Channel</h1>
         <center>
           <div className="input_sub">
             <div className="container">
@@ -180,25 +170,37 @@ class CreateCard extends Component {
                       required
                     />
                   </label>
+                  <label>
+                    <input
+                      type="email"
+                      name="owneremail"
+                      value={this.state.newPost.owneremail}
+                      placeholder="Owner Email"
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </label>
                 </div>
                 <label>
                   <textarea
                     name="summery"
                     value={this.state.newPost.summery}
-                    onChange={(event) => {
-                      this.handleChange(event);
-                      this.handleTextareaChange(); // Resize textarea
-                    }}
-                    placeholder="Add Summary about your channel"
-                    ref={this.textareaRef}
+                    onChange={this.handleChange}
+                    placeholder="Add Summary about quiz"
                     required
                   />
                 </label>
-                <button type="submit">Create Channel</button>
+                <button type="submit" style={{ backgroundColor: "red" }}>
+                  Create Module
+                </button>
               </form>
             </div>
           </div>
         </center>
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
     );
   }

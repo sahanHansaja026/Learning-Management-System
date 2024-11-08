@@ -1,5 +1,5 @@
 const express = require("express");
-const Posts = require("../models/create_chanel");
+const Posts = require("../models/chanelmodule");
 const multer = require("multer");
 const path = require("path");
 
@@ -8,7 +8,7 @@ const routers = express.Router();
 // Upload configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../chenals"));
+    cb(null, path.join(__dirname, "../Uploads"));
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -18,11 +18,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Save post
-routers.post("/chanel/save", upload.single("image"), async (req, res) => {
+routers.post("/chenelsposts/save", upload.single("image"), async (req, res) => {
   try {
-    const { email, chenal_id, title, summery } = req.body;
+    const { email, owneremail, card_id, title, summery } = req.body;
 
-    if (!email || !chenal_id || !title || !summery || !req.file) {
+    if (!email || !card_id || !owneremail || !title || !summery || !req.file) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -30,9 +30,10 @@ routers.post("/chanel/save", upload.single("image"), async (req, res) => {
 
     const newPost = new Posts({
       email,
+      owneremail,
       title,
       summery,
-      chenal_id,
+      card_id,
       image: imagePath,
     });
 
@@ -45,7 +46,7 @@ routers.post("/chanel/save", upload.single("image"), async (req, res) => {
 });
 
 // Get all posts
-routers.get("/ch", async (req, res) => {
+routers.get("/chenalposts", async (req, res) => {
   try {
     const posts = await Posts.find().sort({ _id: -1 }).exec();
     return res.status(200).json({
@@ -59,7 +60,7 @@ routers.get("/ch", async (req, res) => {
 });
 
 // get a specific post by ID
-routers.get("/chnel/:id", async (req, res) => {
+routers.get("/chenalpost/:id", async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Posts.findById(postId).exec();
@@ -75,7 +76,7 @@ routers.get("/chnel/:id", async (req, res) => {
 });
 
 //get a count
-routers.get("/chenel/count", async (req, res) => {
+routers.get("/chenalposts/count", async (req, res) => {
   try {
     const count = await Posts.countDocuments();
     return res.status(200).json({
@@ -88,7 +89,7 @@ routers.get("/chenel/count", async (req, res) => {
   }
 });
 
-routers.get("/chenel/:chenal_id", async (req, res) => {
+routers.get("/chenalpostes/:card_id", async (req, res) => {
   try {
     const cardId = req.params.card_id;
     console.log("Card ID received:", cardId); // Log the card_id for debugging
@@ -114,7 +115,8 @@ routers.get("/chenel/:chenal_id", async (req, res) => {
 });
 
 // Get posts by email (using URL parameter)
-routers.get("/ch/:email", async (req, res) => {
+// routers.get("/posts/:email", async (req, res) => {
+routers.get("/chenalposts/:email", async (req, res) => {
   try {
     const { email } = req.params;
     const { page = 1, limit = 10 } = req.query; // Default to page 1 and limit 10
