@@ -68,6 +68,7 @@ const ChenalDetails = () => {
 
       <div className="channel-details">
         <h2>Welcome, {username}!</h2>
+        {/*
         <p>User Email: {email}</p>
         <div className="admin-info">
           <h2>Channel Information</h2>
@@ -78,6 +79,7 @@ const ChenalDetails = () => {
             <strong>Channel ID:</strong> {post?.chenal_id}
           </p>
         </div>
+      */}
         <div className="channel-summary">
           <h3>About This Channel</h3>
           <p className={isExpanded ? "expanded" : "collapsed"}>

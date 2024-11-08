@@ -151,7 +151,7 @@ class CreateCard extends Component {
       <div>
         <h1>Create Your Own Channel</h1>
         <center>
-          <div className="input_sub">
+          <div className="input_sub1">
             <div className="container">
               <form onSubmit={this.handleSubmit}>
                 {this.state.errorMessage && (

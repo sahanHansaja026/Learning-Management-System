@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
-import Hero from "../images/hero.png";
 import "../css/home.css";
 import authService from "../services/authService";
 

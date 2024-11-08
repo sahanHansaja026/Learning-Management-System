@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
-import Hero from "../images/hero.png";
-import "../css/home.css";
+import Hero from "../images/happystudent.png";
+import Happy from "../images/Graduation-bro.svg";
+import "../css/newhome.css";
 import authService from "../services/authService";
 
 export default class home_page extends Component {
@@ -150,20 +151,91 @@ export default class home_page extends Component {
   render() {
     const { posts, username, email, shareMenuVisible } = this.state;
     return (
-      <div className="home">
+      <div className="newhome">
         <div className="herobox">
           <div className="content">
-            <h1>ModuleMate</h1>
+            <h1>Develop your skills in a new and unique way</h1>
             <p>
-              Reflects the idea of a global education space where everyone can
-              learn.
+              Module Mate is your platform for learning and growth, offering
+              tailored educational modules, skilled instructors, and interactive
+              assignments. Whether you're a student or a teacher, discover the
+              tools you need for a rewarding journey. Start today and unlock new
+              possibilities!
             </p>
           </div>
-          <div className="heroimage">
-            <img src={Hero} alt="Example" />
+          <div className="dashline">
+            <div className="heroimage">
+              <img src={Hero} alt="Student illustration" />
+            </div>
           </div>
         </div>
-        <h2>Welcome, {username}!</h2>
+        <div className="powerd">
+          <h2>Mark Technologies</h2>
+          <h2>LinkedIn</h2>
+          <h2>Facebook</h2>
+          <h2>OpenAI</h2>
+        </div>
+        <div className="bodycontent">
+          <div className="subbodycontent">
+            <img src={Happy} alt="Student illustration" />
+            <div className="headh1">
+              <h1
+                style={{
+                  color: "purple",
+                  display: "inline", // Make this <h1> display inline
+                  marginRight: "5px", // Optional spacing between the two parts
+                }}
+              >
+                Benefits
+              </h1>
+              <h1
+                style={{
+                  color: "black", // Set a different color for the second part
+                  display: "inline", // Make this <h1> display inline
+                }}
+              >
+                From Our Online Learning
+              </h1>
+              <ul>
+                <li>
+                  <strong>Flexible Learning:</strong>
+                  <br />
+                  Access modules anytime, anywhere, at your own pace.
+                </li>
+                <li>
+                  <strong>Interactive Content:</strong>
+                  <br />
+                  Engage with quizzes, assignments, and discussions for a
+                  hands-on learning experience.
+                </li>
+                <li>
+                  <strong>Expert Instructors:</strong>
+                  <br />
+                  Learn from skilled professionals with real-world experience in
+                  various fields.
+                </li>
+                <li>
+                  <strong>Personalized Experience:</strong>
+                  <br />
+                  Tailor your learning path to suit your goals and learning
+                  style.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="hh">
+          <h1>
+            <i>Discover Courses to Elevate Your Learning</i>
+          </h1>
+          <p>
+            Browse through our extensive collection of courses designed to help
+            you learn, grow, and succeed. Find the perfect course to match your
+            interests and goals!
+          </p>
+          <br />
+        </div>
+
         <div className="card-container">
           {posts
             .sort((a, b) => new Date(b.date) - new Date(a.date))

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import authService from "../services/authService";
 import axios from "axios";
 import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
-import "../css/my_module.css";
+import "../css/mychanel.css";
 
 const MyModule = () => {
   const [username, setUsername] = useState("");
@@ -58,8 +58,8 @@ const MyModule = () => {
   }
 
   return (
-    <div>
-      <div className="card-container">
+    <div className="mychanel">
+      <div className="card-container1">
         {posts
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map((post) => (

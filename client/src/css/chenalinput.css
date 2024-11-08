@@ -1,4 +1,4 @@
-.input_sub {
+.input_sub1 {
   padding: 20px;
   background-color: transparent;
   border-radius: 8px;
@@ -8,12 +8,12 @@
   margin-top: 15px;
 }
 
-.input_sub .container {
+.input_sub1 .container {
   width: 900px;
   margin: auto;
 }
 
-.input_sub .cardshowimage {
+.input_sub1 .cardshowimage {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,32 +27,32 @@
   width: fit-content;
   margin-left: -12px;
 }
-.input_sub .cardshowimage img {
+.input_sub1 .cardshowimage img {
   width: 900px;
   height: 250px;
 }
-.input_sub .cardshowimage:hover {
+.input_sub1 .cardshowimage:hover {
   border-color: #007bff;
 }
 
-.input_sub .default-profile-picture {
+.input_sub1 .default-profile-picture {
   color: #aaa;
   text-align: center;
   padding: 20px;
   font-size: 16px;
 }
 
-.input_sub.box {
+.input_sub1.box {
   margin-bottom: 15px;
 }
 
-.input_sub label {
+.input_sub1 label {
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
 }
 
-.input_sub input[type="text"] {
+.input_sub1 input[type="text"] {
   width: 100%;
   padding: 8px;
   border: 1px solid transparent;
@@ -61,7 +61,7 @@
   background-color: transparent;
   color: rgb(255, 255, 255);
 }
-.input_sub textarea {
+.input_sub1 textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid transparent;
@@ -74,14 +74,14 @@
   overflow-y: hidden; /* Hide vertical overflow */
   min-height: 50px;
 }
-.input_sub input[type="text"]:focus,
-.input_sub textarea:focus {
+.input_sub1 input[type="text"]:focus,
+.input_sub1 textarea:focus {
   border-color: transparent;
   outline: none;
   background-color: transparent;
 }
 
-.input_sub button {
+.input_sub1 button {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   border: none;
@@ -91,14 +91,14 @@
   font-size: 25px;
 }
 
-.input_sub input[type="text"]::placeholder {
+.input_sub1 input[type="text"]::placeholder {
   color: #3d3d3d;
   opacity: 1;
   font-size: 35px;
   font-weight: bold;
 }
 
-.input_sub textarea::placeholder {
+.input_sub1 textarea::placeholder {
   color: #3d3d3d;
   opacity: 1;
   font-size: 28px;
