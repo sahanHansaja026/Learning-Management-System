@@ -27,4 +27,25 @@ routee.post("/search", (req, res) => {
 });
 
 
+
+// Route to search cards by tags
+routee.post("/tagsearch", async (req, res) => {
+  try {
+    const { tags } = req.body; // Get the selected tags from the request body
+
+    // Define a query to filter by tags if tags are provided
+    const query = tags && tags.length > 0 ? { tags: { $all: tags } } : {};
+
+    // Query the database to find cards that match the tags
+    const existingPosts = await Posts.find(query);
+
+    // Send the results back to the client
+    res.json({ success: true, existingPosts });
+  } catch (error) {
+    console.error("Error searching for cards by tags:", error);
+    res.json({ success: false, error: "Error searching for modules." });
+  }
+});
+
+
 module.exports = routee; // export routee

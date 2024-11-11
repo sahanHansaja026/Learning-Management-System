@@ -13,7 +13,11 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  summery:{
+  summery: {
+    type: String,
+    required: true,
+  },
+  tags: {
     type: String,
     required: true,
   },

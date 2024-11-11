@@ -21,7 +21,7 @@ const MyModule = () => {
           
           setEmail(userData.email);
         const response = await axios.get(
-          `http://localhost:9001/ch/${userData.email}?page=${currentPage}&limit=10`
+          `http://localhost:9001/ch/${userData.email}?page=${currentPage}&limit=1`
         );
         setPosts(response.data.existingPosts);
         setTotalPages(response.data.totalPages);

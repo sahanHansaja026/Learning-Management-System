@@ -10,7 +10,8 @@ import Enroll from "../components/my_enrollement";
 import MyModule from "../components/my_module";
 import Calender from "../components/calender";
 import Chanel from "../chanel/chanel";
-import Mychenal from "../chanel/mychenal"
+import Mychenal from "../chanel/mychenal";
+import Chart from "../components/analatic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserGraduate,
@@ -71,6 +72,11 @@ const Dashboard = () => {
         <h2>Dashboard</h2>
         <ul>
           <li>
+            <Link to="/dashboard/analytics">
+              <FontAwesomeIcon icon={faUserGraduate} /> Analytics
+            </Link>
+          </li>
+          <li>
             <Link to="/dashboard/myenrollment">
               <FontAwesomeIcon icon={faUserGraduate} /> My Enrollment
             </Link>
@@ -118,8 +124,9 @@ const Dashboard = () => {
         <Routes>
           <Route path="/create_card" element={<Create />} />
           <Route path="/search" element={<Search />} />
-          <Route path="*" element={<Navigate to="/dashboard/myenrollment" />} />
-          <Route path="/myenrollment" element={<Enroll />} />
+          <Route path="*" element={<Navigate to="/dashboard/analytics" />} />
+          <Route path="/myenrollement" element={<Enroll />} />
+          <Route path="/analytics" element={<Chart />} />
           <Route path="/my_modules" element={<MyModule />} />
           <Route path="/calender" element={<Calender />} />
           <Route path="/chenal" element={<Chanel />} />

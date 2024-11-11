@@ -7,7 +7,8 @@ import "../css/enrolle.css"; // Import the CSS file
 const Enrolle = ({ setCardId }) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [cardDetails, setCardDetails] = useState({}); // State to store card details
+  const [cardDetails, setCardDetails] = useState({});
+  const [enrollmentCount, setEnrollmentCount] = useState(0); // State for enrollment count
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ const Enrolle = ({ setCardId }) => {
     fetchUserData();
   }, [id, navigate]);
 
-  // Fetch card details
+  // Fetch card details and enrollment count
   useEffect(() => {
     const fetchCardDetails = async () => {
       try {
@@ -55,7 +56,21 @@ const Enrolle = ({ setCardId }) => {
       }
     };
 
+    const fetchEnrollmentCount = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:9001/enrollment-count/${id}`
+        );
+        if (response.data.success) {
+          setEnrollmentCount(response.data.count);
+        }
+      } catch (error) {
+        console.error("Failed to fetch enrollment count", error);
+      }
+    };
+
     fetchCardDetails();
+    fetchEnrollmentCount();
   }, [id]);
 
   useEffect(() => {
@@ -74,6 +89,7 @@ const Enrolle = ({ setCardId }) => {
 
       await axios.post("http://localhost:9001/enroll", enrollmentData);
       setMessage("Enrollment successful");
+      setEnrollmentCount((prevCount) => prevCount + 1); // Update count immediately on successful enrollment
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setMessage("You have already enrolled in this course.");
@@ -104,6 +120,10 @@ const Enrolle = ({ setCardId }) => {
           </div>
         </div>
       )}
+      <p>
+        {enrollmentCount}
+        {""}already enrolled
+      </p>
       <button onClick={handleEnrollClick}>Enroll</button>
       <div className="commengidelines">
         <h3>

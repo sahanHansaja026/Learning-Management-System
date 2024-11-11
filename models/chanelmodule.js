@@ -24,6 +24,10 @@ const postSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  tags: {
+    type: String,
+    require: true,
+  },
 });
 
 module.exports = mongoose.model("chenalModules", postSchema);

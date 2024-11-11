@@ -14,14 +14,40 @@ class CreateCard extends Component {
       newPost: {
         id: "",
         title: "",
-        owneremail: "",
         summery: "",
+        owneremail: "",
         card_id: "",
         image: null,
+        tags: [],
       },
       userEmail: "",
       errorMessage: "",
       imagePreview: defaultImage,
+      currentTag: "",
+      suggestedTags: [],
+      popularTags: [
+        "Science",
+        "Maths",
+        "Video",
+        "Tutorial",
+        "Learning",
+        "Physics",
+        "Chemistry",
+        "Biology",
+        "Computer Science",
+        "History",
+        "Literature",
+        "Geography",
+        "Art",
+        "Engineering",
+        "Psychology",
+        "Economics",
+        "Philosophy",
+        "Music",
+        "Languages",
+        "Technology",
+        "Health",
+      ],
     };
     this.fileInputRef = React.createRef();
   }
@@ -47,7 +73,6 @@ class CreateCard extends Component {
       .then((res) => {
         if (res.data.success) {
           this.setState({ posts: res.data.existingPosts });
-          console.log("Posts retrieved successfully:", this.state.posts);
         } else {
           console.error("Error fetching posts:", res.data.error);
           this.setState({ errorMessage: res.data.error });
@@ -77,16 +102,61 @@ class CreateCard extends Component {
         ...this.state.newPost,
         image: file,
       },
-      imagePreview: file ? URL.createObjectURL(file) : defaultImage,
+      imagePreview: URL.createObjectURL(file),
       errorMessage: "",
     });
+  };
+
+  handleTagInputChange = (event) => {
+    const currentTag = event.target.value;
+    this.setState({
+      currentTag,
+      suggestedTags: this.state.popularTags.filter((tag) =>
+        tag.toLowerCase().startsWith(currentTag.toLowerCase())
+      ),
+    });
+  };
+
+  handleTagAdd = (event) => {
+    event.preventDefault();
+    const { currentTag, newPost } = this.state;
+    if (currentTag && !newPost.tags.includes(currentTag)) {
+      this.setState((prevState) => ({
+        newPost: {
+          ...prevState.newPost,
+          tags: [...prevState.newPost.tags, currentTag],
+        },
+        currentTag: "",
+        suggestedTags: [],
+      }));
+    }
+  };
+
+  handleSuggestionClick = (suggestion) => {
+    this.setState((prevState) => ({
+      newPost: {
+        ...prevState.newPost,
+        tags: [...prevState.newPost.tags, suggestion],
+      },
+      currentTag: "",
+      suggestedTags: [],
+    }));
+  };
+
+  handleTagRemove = (tag) => {
+    this.setState((prevState) => ({
+      newPost: {
+        ...prevState.newPost,
+        tags: prevState.newPost.tags.filter((t) => t !== tag),
+      },
+    }));
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { title, owneremail, summery, image } = this.state.newPost;
-    if (!title || !owneremail || !summery || !image) {
+    const { title, summery, owneremail, image, tags } = this.state.newPost;
+    if (!title || !summery || !image) {
       alert("Please fill in all required fields.");
       return;
     }
@@ -97,9 +167,10 @@ class CreateCard extends Component {
     formData.append("card_id", newPostId);
     formData.append("email", this.state.userEmail);
     formData.append("title", title);
-    formData.append("owneremail", owneremail);
     formData.append("summery", summery);
+    formData.append("owneremail", owneremail);
     formData.append("image", image);
+    formData.append("tags", JSON.stringify(tags));
 
     axios
       .post("http://localhost:9001/chenelsposts/save", formData, {
@@ -109,26 +180,24 @@ class CreateCard extends Component {
       })
       .then((res) => {
         if (res.data.success) {
-          console.log("Post added successfully");
           this.setState({
             newPost: {
               id: "",
               title: "",
-              owneremail: "",
               summery: "",
+              owneremail: "",
               image: null,
+              tags: [],
             },
             imagePreview: defaultImage,
           });
           this.retrievePosts();
           this.props.navigate(`/moduleowner/${newPostId}`);
         } else {
-          console.error("Error adding post:", res.data.error);
           this.setState({ errorMessage: res.data.error });
         }
       })
       .catch((error) => {
-        console.error("Error adding post:", error);
         this.setState({ errorMessage: "Error adding post." });
       });
   };
@@ -139,68 +208,107 @@ class CreateCard extends Component {
 
   render() {
     return (
-      <div>
-        <center>
-          <div className="input_sub">
-            <div className="container">
-              <form onSubmit={this.handleSubmit}>
-                {this.state.errorMessage && (
-                  <div className="error-message">{this.state.errorMessage}</div>
-                )}
-                <div className="cardshowimage" onClick={this.handleImageClick}>
-                  <img src={this.state.imagePreview} alt="Image Preview" />
-                  <input
-                    type="file"
-                    name="image"
-                    accept=".png, .jpg, .jpeg"
-                    onChange={this.handleImageChange}
-                    ref={this.fileInputRef}
-                    style={{ display: "none" }}
-                    required
-                  />
-                </div>
-                <div className="box">
-                  <label>
-                    <input
-                      type="text"
-                      name="title"
-                      value={this.state.newPost.title}
-                      placeholder="Title"
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </label>
-                  <label>
-                    <input
-                      type="email"
-                      name="owneremail"
-                      value={this.state.newPost.owneremail}
-                      placeholder="Owner Email"
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <label>
-                  <textarea
-                    name="summery"
-                    value={this.state.newPost.summery}
-                    onChange={this.handleChange}
-                    placeholder="Add Summary about quiz"
-                    required
-                  />
-                </label>
-                <button type="submit" style={{ backgroundColor: "red" }}>
-                  Create Module
-                </button>
-              </form>
+      <div className="create-card-container">
+        <div className="form-container">
+          <h2>Create New Post</h2>
+          <form onSubmit={this.handleSubmit}>
+            {this.state.errorMessage && (
+              <div className="error-message">{this.state.errorMessage}</div>
+            )}
+
+            <div className="image-upload-section">
+              <div className="image-preview" onClick={this.handleImageClick}>
+                <img
+                  src={this.state.imagePreview}
+                  alt="Image Preview"
+                  className="image-preview-img"
+                />
+                <span className="image-upload-text">Click to upload</span>
+              </div>
+              <input
+                type="file"
+                name="image"
+                accept=".png, .jpg, .jpeg"
+                onChange={this.handleImageChange}
+                ref={this.fileInputRef}
+                style={{ display: "none" }}
+                required
+              />
             </div>
-          </div>
-        </center>
-        <br />
-        <br />
-        <br />
-        <br />
+
+            <div className="input-group">
+              <input
+                type="text"
+                name="title"
+                value={this.state.newPost.title}
+                placeholder="Post Title"
+                onChange={this.handleChange}
+                required
+              />
+            </div>
+            <label>
+              <input
+                type="email"
+                name="owneremail"
+                value={this.state.newPost.owneremail}
+                placeholder="Owner Email"
+                onChange={this.handleChange}
+                required
+              />
+            </label>
+            <div className="input-group">
+              <textarea
+                name="summery"
+                value={this.state.newPost.summery}
+                onChange={this.handleChange}
+                placeholder="Post Summary"
+                required
+              />
+            </div>
+
+            <div className="tags-section">
+              <input
+                type="text"
+                placeholder="Add a tag and press Enter"
+                value={this.state.currentTag}
+                onChange={this.handleTagInputChange}
+                onKeyPress={(e) => e.key === "Enter" && this.handleTagAdd(e)}
+              />
+              <div className="suggested-tags">
+                {this.state.suggestedTags.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="suggested-tag"
+                    onClick={() => this.handleSuggestionClick(tag)}
+                  >
+                    {tag}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="added-tags">
+              {this.state.newPost.tags.map((tag, index) => (
+                <span key={index} className="tag-chip">
+                  {tag}
+                  <span
+                    className="remove-tag-chip"
+                    onClick={() => this.handleTagRemove(tag)}
+                  >
+                    &times;
+                  </span>
+                </span>
+              ))}
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <button type="submit" className="submit-button">
+              Create Post
+            </button>
+          </form>
+        </div>
       </div>
     );
   }

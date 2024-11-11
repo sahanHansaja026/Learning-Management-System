@@ -20,9 +20,9 @@ const upload = multer({ storage });
 // Save post
 routers.post("/chenelsposts/save", upload.single("image"), async (req, res) => {
   try {
-    const { email, owneremail, card_id, title, summery } = req.body;
+    const { email, owneremail, card_id,tags, title, summery } = req.body;
 
-    if (!email || !card_id || !owneremail || !title || !summery || !req.file) {
+    if (!email || !tags || !card_id || !owneremail || !title || !summery || !req.file) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -34,6 +34,7 @@ routers.post("/chenelsposts/save", upload.single("image"), async (req, res) => {
       title,
       summery,
       card_id,
+      tags,
       image: imagePath,
     });
 

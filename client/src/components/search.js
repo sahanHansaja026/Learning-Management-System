@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
 import "../css/search.css";
@@ -8,6 +8,7 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [shareMenuVisible, setShareMenuVisible] = useState(null);
+  const [enrollmentCounts, setEnrollmentCounts] = useState({}); // State for enrollment counts
 
   const handleSearchChange = (event) => {
     const query = event.target.value;
@@ -20,6 +21,7 @@ const Search = () => {
           if (res.data.success) {
             setPosts(res.data.existingPosts);
             setErrorMessage("");
+            fetchEnrollmentCounts(res.data.existingPosts); // Fetch enrollment counts when posts are available
           } else {
             setErrorMessage(res.data.error);
             setPosts([]);
@@ -34,6 +36,24 @@ const Search = () => {
       setPosts([]);
       setErrorMessage("");
     }
+  };
+
+  const fetchEnrollmentCounts = (posts) => {
+    posts.forEach((post) => {
+      axios
+        .get(`http://localhost:9001/enrollment-count/${post.card_id}`) // Fetch count from the backend
+        .then((res) => {
+          if (res.data.card_id) {
+            setEnrollmentCounts((prevCounts) => ({
+              ...prevCounts,
+              [post.card_id]: res.data.enrollmentCount, // Store the count by card_id
+            }));
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching enrollment count:", error);
+        });
+    });
   };
 
   const toggleShareMenu = (cardId) => {
@@ -64,8 +84,8 @@ const Search = () => {
       <div className="card-container">
         {posts.map((post) => (
           <div className="card" key={post.card_id}>
-            <a href={`/teacherweek/${post.card_id}`} className="card-link">
-            {shareMenuVisible === post.card_id && (
+            <a href={`/enrollestudent/${post.card_id}`} className="card-link">
+              {shareMenuVisible === post.card_id && (
                 <div className="share-options">
                   <button
                     onClick={() =>
@@ -96,7 +116,9 @@ const Search = () => {
               <div className="card-image">
                 <img
                   src={
-                    post.image ? `http://localhost:9001/Uploads/${post.image}` : ""
+                    post.image
+                      ? `http://localhost:9001/Uploads/${post.image}`
+                      : ""
                   }
                   alt={post.image ? post.image : "No Image"}
                 />
@@ -104,13 +126,21 @@ const Search = () => {
               <div className="card-header">
                 <h3>{post.title}</h3>
                 <p>{post.summery}</p>
+                {/* Display the enrollment count */}
+                <p className="enrollment-count">
+                  {enrollmentCounts[post.card_id] !== undefined
+                    ? `Enrolled: ${enrollmentCounts[post.card_id]}`
+                    : "Enrolled: Loading..."}
+                </p>
               </div>
             </a>
 
             {/* Share Icon */}
             <div className="share-icon">
-              <FaShareAlt color="white" onClick={() => toggleShareMenu(post.card_id)} />
-              
+              <FaShareAlt
+                color="white"
+                onClick={() => toggleShareMenu(post.card_id)}
+              />
             </div>
           </div>
         ))}

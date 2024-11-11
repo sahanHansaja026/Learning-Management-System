@@ -20,9 +20,9 @@ const upload = multer({ storage });
 // Save post
 routers.post("/posts/save", upload.single("image"), async (req, res) => {
   try {
-    const { email,card_id, title, summery } = req.body;
+    const { email,card_id, title,tags, summery } = req.body;
 
-    if (!email || !card_id ||!title || !summery || !req.file) {
+    if (!email || !card_id ||!title || !tags || !summery || !req.file) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -32,6 +32,7 @@ routers.post("/posts/save", upload.single("image"), async (req, res) => {
       email,
       title,
       summery,
+      tags,
       card_id,
       image: imagePath, 
     });

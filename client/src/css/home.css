@@ -7,7 +7,13 @@
   cursor: pointer;
   margin-top: 10px;
 }
-
+.countenrolle {
+  cursor: pointer;
+  color: white;
+}
+.countenrolle strong{
+  color: white;
+}
 .share-options {
   display: flex;
   flex-direction: column;
@@ -40,7 +46,7 @@
   margin-right: 8px;
 }
 
-.home a{
+.home a {
   text-decoration: none;
 }
 .card {
@@ -54,7 +60,11 @@
   cursor: pointer;
   display: flex;
 }
-
+.countenrolle {
+  position:relative;
+  cursor: pointer;
+  display: flex;
+}
 .share-options {
   display: flex;
   flex-direction: row;
@@ -69,7 +79,6 @@
   z-index: 10;
   width: fit-content;
   height: fit-content;
-  
 }
 
 .share-option {

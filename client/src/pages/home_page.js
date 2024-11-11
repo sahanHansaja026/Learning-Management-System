@@ -17,7 +17,8 @@ export default class home_page extends Component {
       postsPerPage: 3,
       username: "",
       email: "",
-      shareMenuVisible: null, // Track which card's share menu is open
+      shareMenuVisible: null,
+      enrollmentCounts: {}, // Track enrollment counts for each post
     };
   }
 
@@ -44,11 +45,19 @@ export default class home_page extends Component {
       .get(`http://localhost:9001/posts?page=${page}&limit=${postsPerPage}`)
       .then((res) => {
         if (res.data.success) {
-          this.setState({
-            posts: res.data.existingPosts,
-            currentPage: page,
-            totalPages: Math.ceil(res.data.totalPosts / postsPerPage),
-          });
+          this.setState(
+            {
+              posts: res.data.existingPosts,
+              currentPage: page,
+              totalPages: Math.ceil(res.data.totalPosts / postsPerPage),
+            },
+            () => {
+              // Fetch enrollment count for each post after setting posts
+              this.state.posts.forEach((post) => {
+                this.fetchEnrollmentCount(post.card_id);
+              });
+            }
+          );
         } else {
           console.error("Error fetching posts:", res.data.error);
         }
@@ -57,6 +66,22 @@ export default class home_page extends Component {
         console.error("Error fetching posts:", error);
       });
   }
+
+  fetchEnrollmentCount = (card_id) => {
+    axios
+      .get(`http://localhost:9001/enrollment-count/${card_id}`)
+      .then((res) => {
+        this.setState((prevState) => ({
+          enrollmentCounts: {
+            ...prevState.enrollmentCounts,
+            [card_id]: res.data.enrollmentCount,
+          },
+        }));
+      })
+      .catch((error) => {
+        console.error("Error fetching enrollment count:", error);
+      });
+  };
 
   toggleShareMenu = (cardId) => {
     this.setState((prevState) => ({
@@ -149,7 +174,8 @@ export default class home_page extends Component {
   }
 
   render() {
-    const { posts, username, email, shareMenuVisible } = this.state;
+    const { posts, username, email, shareMenuVisible, enrollmentCounts } =
+      this.state;
     return (
       <div className="newhome">
         <div className="herobox">
@@ -235,7 +261,6 @@ export default class home_page extends Component {
           </p>
           <br />
         </div>
-
         <div className="card-container">
           {posts
             .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -286,6 +311,11 @@ export default class home_page extends Component {
                   <div className="card-header">
                     <h3>{post.title}</h3>
                     <p>{this.truncateSummary(post.summery, 100)}</p>
+                    <div className="countenrolle">
+                      <strong>
+                        {enrollmentCounts[post.card_id] || 0} Already enrolled
+                      </strong>
+                    </div>
                   </div>
                 </a>
                 <div className="share-icon">

@@ -89,3 +89,27 @@
 .search-form input[type="text"]:focus {
   border-color: green;
 }
+.search-container {
+  display: flex;
+}
+
+.search .sidebar {
+  width: 20%;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ccc;
+  height:100%;
+}
+
+.search .search-content {
+  width: 80%;
+  padding: 20px;
+}
+
+.search .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Other styling as needed */

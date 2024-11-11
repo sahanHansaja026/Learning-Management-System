@@ -69,5 +69,34 @@ router.get('/enrollments/:email', async (req, res) => {
     }
   });
   
+  // Route to count enrollments by card_id
+router.get("/enrollment-count/:card_id", async (req, res) => {
+  const { card_id } = req.params;
+
+  try {
+    // Count enrollments by card_id
+    const count = await Enrollment.countDocuments({ card_id });
+
+    res.status(200).json({ card_id, enrollmentCount: count });
+  } catch (error) {
+    console.error("Error counting enrollments:", error);
+    res.status(500).json({ error: "Failed to count enrollments" });
+  }
+});
+
+// Route to get the most recent five enrollments
+router.get("/enrollments/recent", async (req, res) => {
+  try {
+    const recentEnrollments = await Enrollment.find()
+      .sort({ createdAt: -1 }) // Sort by creation date in descending order
+      .limit(5); // Limit the result to five documents
+
+    res.status(200).json({ recentEnrollments });
+  } catch (error) {
+    console.error("Error retrieving recent enrollments:", error);
+    res.status(500).json({ error: "Failed to retrieve recent enrollments" });
+  }
+});
+
   
 module.exports = router;

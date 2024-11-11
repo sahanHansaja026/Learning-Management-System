@@ -23,6 +23,7 @@ const UserCountRoute = require("./routes/usercount");
 const PogressRoute = require("./routes/progress");
 const ChenalCreateRoute = require("./routes/create_chanel");
 const ChenalModule = require("./routes/chanelmodule");
+const Analytics = require("./routes/dashboard");
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -48,6 +49,7 @@ app.use(cmsRoute);
 app.use(CMSSaveRoute);
 app.use(UserCountRoute);
 app.use(PogressRoute);
+app.use(Analytics);
 
 //for chanel
 app.use(ChenalCreateRoute);
