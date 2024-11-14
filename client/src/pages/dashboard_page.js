@@ -3,7 +3,7 @@ import { Link, Route, Routes, Navigate } from "react-router-dom";
 import "../css/dashboard.css";
 import GiftCard from "../components/GiftCard";
 import Create from "../components/create_card";
-import Search from "../components/search";
+import Search from "../components/searchcomponent";
 import authService from "../services/authService";
 import axios from "axios";
 import Enroll from "../components/my_enrollement";
@@ -77,7 +77,7 @@ const Dashboard = () => {
             </Link>
           </li>
           <li>
-            <Link to="/dashboard/myenrollment">
+            <Link to="/dashboard/myenrollement">
               <FontAwesomeIcon icon={faUserGraduate} /> My Enrollment
             </Link>
           </li>
@@ -87,7 +87,7 @@ const Dashboard = () => {
             </Link>
           </li>
           <li>
-            <Link to="/dashboard/search">
+            <Link to="/dashboard/searchcomponent">
               <FontAwesomeIcon icon={faSearch} /> Search Module
             </Link>
           </li>
@@ -123,7 +123,7 @@ const Dashboard = () => {
       <main className="main-content">
         <Routes>
           <Route path="/create_card" element={<Create />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/searchcomponent" element={<Search />} />
           <Route path="*" element={<Navigate to="/dashboard/analytics" />} />
           <Route path="/myenrollement" element={<Enroll />} />
           <Route path="/analytics" element={<Chart />} />

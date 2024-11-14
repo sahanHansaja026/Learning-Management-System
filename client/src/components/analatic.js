@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import axios from "axios";
-import { Chart, registerables } from "chart.js";
 import authService from "../services/authService";
 import "../css/chart_bar.css";
 import Card from "../images/card copy.png";
 import Student from "../images/student copy.png";
 import Teacher from "../images/teacher copy.png";
-
-Chart.register(...registerables);
 
 const CombinedDashboard = () => {
   const [topCardChartData, setTopCardChartData] = useState({});
@@ -95,46 +92,7 @@ const CombinedDashboard = () => {
   }, [email]);
 
   // Fetch top card IDs and their titles
-  useEffect(() => {
-    const fetchTopCardIds = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:9001/enrollments/recent"
-        );
-        const data = response.data;
-
-        const cardIds = data.map((item) => item._id);
-        const counts = data.map((item) => item.count);
-
-        const titlePromises = cardIds.map((cardId) =>
-          axios.get(`http://localhost:9001/card-title/${cardId}`)
-        );
-
-        const titleResponses = await Promise.all(titlePromises);
-        const titles = titleResponses.map((res) => res.data.title);
-
-        setTopCardChartData({
-          labels: titles,
-          datasets: [
-            {
-              label: "Most Active Quizes",
-              data: counts,
-              backgroundColor: "rgba(75, 192, 192, 0.6)",
-              borderColor: "rgba(75, 192, 192, 1)",
-              borderWidth: 1,
-            },
-          ],
-        });
-      } catch (error) {
-        console.error("Error fetching top card IDs or titles:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTopCardIds();
-  }, []);
-
+ 
   const userChartOptions = {
     scales: {
       x: {
@@ -149,31 +107,6 @@ const CombinedDashboard = () => {
       },
     },
   };
-
-  const topCardOptions = {
-    indexAxis: "y", // Makes the chart horizontal
-    scales: {
-      x: {
-        beginAtZero: true,
-        ticks: {
-          color: "white",
-        },
-      },
-      y: {
-        ticks: {
-          color: "white",
-        },
-      },
-    },
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
     <div className="charts">
@@ -207,20 +140,10 @@ const CombinedDashboard = () => {
       </div>
       <div className="tableshow">
         <div className="chart-container">
-          <h2 className="chart-title">Your Scores Analytics</h2>
-          {userChartData.labels && userChartData.labels.length > 0 ? (
-            <Line data={userChartData} options={userChartOptions} />
-          ) : (
-            <p>Loading charts...</p>
-          )}
+
         </div>{" "}
         <div className="chart-container">
-          <h2 className="chart-title">Top 5 Most Active Cards</h2>
-          {topCardChartData.labels && topCardChartData.labels.length > 0 ? (
-            <Bar data={topCardChartData} options={topCardOptions} />
-          ) : (
-            <p>Loading chart...</p>
-          )}
+
         </div>
       </div>
       <br />

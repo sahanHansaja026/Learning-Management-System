@@ -1,6 +1,6 @@
 .search{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
@@ -9,6 +9,7 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+  height: auto;
 }
 
 .card {
@@ -99,6 +100,7 @@
   background-color: #f4f4f4;
   border-right: 1px solid #ccc;
   height:100%;
+  color: black;
 }
 
 .search .search-content {

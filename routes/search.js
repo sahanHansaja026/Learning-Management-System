@@ -26,26 +26,30 @@ routee.post("/search", (req, res) => {
     });
 });
 
-
-
-// Route to search cards by tags
-routee.post("/tagsearch", async (req, res) => {
+// Search posts by tags
+routee.get("/posts/tags/search", async (req, res) => {
   try {
-    const { tags } = req.body; // Get the selected tags from the request body
+    const { tags } = req.query; // Get the tags query parameter
+    if (!tags) {
+      return res.status(400).json({ error: "Tags parameter is required" });
+    }
 
-    // Define a query to filter by tags if tags are provided
-    const query = tags && tags.length > 0 ? { tags: { $all: tags } } : {};
+    const tagArray = tags.split(","); // Convert comma-separated tags into an array
 
-    // Query the database to find cards that match the tags
-    const existingPosts = await Posts.find(query);
+    // Find posts that match any of the selected tags
+    const posts = await Posts.find({ tags: { $in: tagArray } });
 
-    // Send the results back to the client
-    res.json({ success: true, existingPosts });
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "No posts found for these tags" });
+    }
+
+    return res.status(200).json({ posts });
   } catch (error) {
-    console.error("Error searching for cards by tags:", error);
-    res.json({ success: false, error: "Error searching for modules." });
+    console.error("Error searching posts:", error);
+    return res.status(500).json({ error: "Server error, please try again" });
   }
 });
+
 
 
 module.exports = routee; // export routee

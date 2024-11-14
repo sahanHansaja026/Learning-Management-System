@@ -22,6 +22,7 @@ import CMS from "./components/add_cms";
 import WriteCms from "./components/CMS";
 import Footer from "./components/footer";
 import About from "./pages/about";
+import SearchComponent from "./components/searchcomponent";
 
 //for chenals
 import ChenaHome from "./chanel/chenal_home";
@@ -49,6 +50,7 @@ const App = () => {
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/search" element={<Search />} />
+        <Route exact path="/searchcomponent" element={<SearchComponent />} />
         <Route exact path="/about" element={<About />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route exact path="/teacherweek/:id" element={<Teacherweek />} />
@@ -66,7 +68,11 @@ const App = () => {
         {/* for chenal */}
         <Route exact path="/chenalhome/:id" element={<ChenaHome />} />
         <Route exact path="/moduleowner/:id" element={<MOduleOwner />} />
-        <Route exact path="/chenalenrollement/:id" element={<ChenalEnrollment />} />
+        <Route
+          exact
+          path="/chenalenrollement/:id"
+          element={<ChenalEnrollment />}
+        />
         <Route exact path="/chenalhome/:id" element={<CheanelHome />} />
       </Routes>
       {shouldShowFooter && <Footer />}
