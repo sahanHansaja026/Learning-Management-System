@@ -12,31 +12,50 @@ const ChenalDetails = () => {
   const [email, setEmail] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState("primaryAdmin");
+  const [userProfile, setUserProfile] = useState(null); // State for user profile
   const { id } = useParams();
 
+  // Fetch channel details
   useEffect(() => {
     axios
       .get(`http://localhost:9001/chnel/${id}`)
       .then((res) => {
         if (res.data.success) {
-          setPost(res.data.post); // set post data when available
+          setPost(res.data.post); // Set post data when available
         }
       })
       .catch((error) => {
         console.error("Error fetching post details:", error);
       });
+  }, [id]);
 
+  // Fetch user data and admin profile
+  useEffect(() => {
     const fetchUserData = async () => {
       try {
+        // Fetch current user's data
         const userData = await authService.getUserData();
         setUsername(userData.username);
         setEmail(userData.email);
+
+        // Fetch profile using Admin Email from post if available
+        if (post?.email) {
+          const profileResponse = await axios.get(
+            `http://localhost:9001/userprofile/summary/${post.email}`
+          );
+          if (profileResponse.data.success) {
+            setUserProfile(profileResponse.data);
+          }
+        }
       } catch (error) {
-        console.error("Failed to fetch user data", error);
+        console.error("Failed to fetch user data or profile", error);
       }
     };
-    fetchUserData();
-  }, [id]);
+
+    if (post?.email) {
+      fetchUserData();
+    }
+  }, [post]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -48,6 +67,8 @@ const ChenalDetails = () => {
 
   // Check if user email matches admin email to conditionally render the Primary Admin tab
   const showPrimaryAdminTab = post?.email === email;
+  const showPrimaryConten = post?.email === email;
+  const elseshowtab = post?.email !== email;
 
   if (!post) {
     return <div>Loading...</div>; // Show loading message while post is being fetched
@@ -64,22 +85,23 @@ const ChenalDetails = () => {
         <div className="banner-overlay">
           <h1 className="channel-title">{post.title}</h1>
         </div>
+
+        <div className="chanelprofile">
+          <img
+            src={
+              userProfile && userProfile.image
+                ? `http://localhost:9001/Profileimge/${userProfile.image}` // Profile image from backend
+                : `http://localhost:9001/Profileimge/default.png` // Default image
+            }
+            alt="Profile"
+            className="chaneldpimage"
+          />
+        </div>
       </div>
 
       <div className="channel-details">
         <h2>Welcome, {username}!</h2>
-        {/*
-        <p>User Email: {email}</p>
-        <div className="admin-info">
-          <h2>Channel Information</h2>
-          <p>
-            <strong>Admin Email:</strong> {post?.email}
-          </p>
-          <p>
-            <strong>Channel ID:</strong> {post?.chenal_id}
-          </p>
-        </div>
-      */}
+
         <div className="channel-summary">
           <h3>About This Channel</h3>
           <p className={isExpanded ? "expanded" : "collapsed"}>
@@ -91,7 +113,7 @@ const ChenalDetails = () => {
         </div>
       </div>
 
-      {/* Render Tabs */}
+      {/* Tab Buttons */}
       <div className="tab">
         {showPrimaryAdminTab && (
           <button
@@ -113,9 +135,9 @@ const ChenalDetails = () => {
         </button>
       </div>
 
-      {/* Render Tab Content */}
-      {activeTab === "primaryAdmin" && <PrimaryAdmin />}
-      {activeTab === "secondaryAdmin" && <SecondaryAdmin />}
+      {/* Tab Content */}
+      {showPrimaryConten && activeTab === "primaryAdmin" && <PrimaryAdmin />}
+      {elseshowtab && activeTab === "secondaryAdmin" && <SecondaryAdmin />}
     </div>
   );
 };

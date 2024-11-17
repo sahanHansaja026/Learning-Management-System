@@ -5,7 +5,7 @@ import authService from "../services/authService";
 import { Link } from "react-router-dom";
 import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
 
-export default class Home extends Component {
+export default class MYChanels extends Component {
   constructor(props) {
     super(props);
 

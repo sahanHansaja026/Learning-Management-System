@@ -6,7 +6,7 @@ import Create from "../components/create_card";
 import Search from "../components/searchcomponent";
 import authService from "../services/authService";
 import axios from "axios";
-import Enroll from "../components/my_enrollement";
+import Enroll from "../components/my_enrollementcomponent";
 import MyModule from "../components/my_module";
 import Calender from "../components/calender";
 import Chanel from "../chanel/chanel";

@@ -145,3 +145,20 @@
 .tabcontent.active {
   display: block;
 }
+.channel-page .chaneldpimage{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 5px solid rgb(198, 11, 255);
+  margin-left: -300px;
+  margin-bottom: -80px;
+}
+.chanelprofile{
+  margin-top: 205px;
+}
+.tabcontent {
+  display: none; /* Hidden by default */
+}
+.tabcontent.active {
+  display: block; /* Display active tab */
+}
