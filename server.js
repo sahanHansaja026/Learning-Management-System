@@ -25,6 +25,8 @@ const ChenalCreateRoute = require("./routes/create_chanel");
 const ChenalModule = require("./routes/chanelmodule");
 const Analytics = require("./routes/dashboard");
 const TagSearch = require("./routes/tagsearch");
+const Subscribers = require("./routes/subscriber");
+const Subscripion = require("./routes/subscription");
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -52,10 +54,12 @@ app.use(UserCountRoute);
 app.use(PogressRoute);
 app.use(Analytics);
 app.use(TagSearch)
+app.use(Subscribers);
 
 //for chanel
 app.use(ChenalCreateRoute);
 app.use(ChenalModule);
+app.use(Subscripion);
 
 // server.js or the relevant file
 app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));

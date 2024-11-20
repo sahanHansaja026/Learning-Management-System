@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "../css/home.css";
+import "../css/chenal_details.css";
 import authService from "../services/authService";
-import { Link } from "react-router-dom";
 import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
 
 export default class MYChanels extends Component {
@@ -32,7 +31,7 @@ export default class MYChanels extends Component {
 
     axios
       .get(
-        `http://localhost:9001/enrollments/${email}?page=${page}&limit=${enrollmentsPerPage}`
+        `http://localhost:9001/subscripion/${email}?page=${page}&limit=${enrollmentsPerPage}`
       )
       .then((res) => {
         if (res.data.success) {
@@ -60,7 +59,7 @@ export default class MYChanels extends Component {
     const posts = {};
     enrollments.forEach((enrollment) => {
       axios
-        .get(`http://localhost:9001/postes/${enrollment.card_id}`)
+        .get(`http://localhost:9001/chenel/${enrollment.channelId}`)
         .then((res) => {
           if (res.data.success && res.data.post) {
             posts[enrollment.card_id] = res.data.post;
@@ -182,80 +181,74 @@ export default class MYChanels extends Component {
 
   render() {
     const { enrollments, posts, shareMenuVisible } = this.state;
+
+    // Convert posts object into an array
     const postArray = Object.values(posts).sort(
       (a, b) => new Date(b.date) - new Date(a.date)
     );
 
     return (
-      <div className="enrolle">
-        <div className="card-container">
-          {postArray.length > 0 ? (
-            postArray.map((post) => (
-              <div className="card" key={post.card_id}>
-                <a href={`/teacherweek/${post.card_id}`} className="card-link">
-                  <div className="card-image">
-                    <img
-                      src={
-                        post.image
-                          ? `http://localhost:9001/Uploads/${post.image}`
-                          : "default-image.jpg"
-                      }
-                      alt={post.image ? post.image : "No Image"}
-                    />
-                  </div>
-                  <div className="card-header">
-                    <h3>{post.title}</h3>
-                    <p>{this.truncateSummary(post.summery, 100)}</p>
-                  </div>
-                </a>
-
-                {/* Share Icon */}
-                <div
-                  className="share-icon"
-                  onClick={() => this.toggleShareMenu(post.card_id)}
-                >
-                  <FaShareAlt color="white" />
+      <div className="mychanel">
+        <div className="card-container1">
+          {postArray.map((post) => (
+            <div className="card" key={post.chenal_id}>
+              <a href={`/chenalhome/${post._id}`} className="card-link">
+                <div className="card-image">
+                  <img
+                    src={
+                      post.image
+                        ? `http://localhost:9001/ChenalsFile/${post.image}`
+                        : ""
+                    }
+                    alt={post.image ? post.image : "No Image"}
+                  />
                 </div>
+                <div className="card-header">
+                  <h3>{post.title}</h3>
+                  <p>{this.truncateSummary(post.summery, 100)}</p>
+                </div>
+              </a>
 
-                {/* Share Menu */}
-                {shareMenuVisible === post.card_id && (
-                  <div className="share-options">
-                    <button
-                      onClick={() =>
-                        this.copyToClipboard(
-                          `${window.location.origin}/teacherweek/${post.card_id}`
-                        )
-                      }
-                      className="share-option"
-                    >
-                      <FaLink color="white" /> Copy Link
-                    </button>
-                    <a
-                      href={`https://wa.me/?text=Check out this module: ${window.location.origin}/teacherweek/${post.card_id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="share-option"
-                    >
-                      <FaWhatsapp color="white" /> WhatsApp
-                    </a>
-                    <a
-                      href={`mailto:?subject=Check out this module&body=Here is a link to the module: ${window.location.origin}/teacherweek/${post.card_id}`}
-                      className="share-option"
-                    >
-                      <FaEnvelope color="white" /> Email
-                    </a>
-                  </div>
-                )}
+              {/* Share Icon */}
+              <div className="share-icon">
+                <FaShareAlt
+                  color="white"
+                  onClick={() => this.toggleShareMenu(post.chenal_id)}
+                />
               </div>
-            ))
-          ) : (
-            <p>No posts available.</p>
-          )}
+
+              {/* Share Menu */}
+              {shareMenuVisible === post.chenal_id && (
+                <div className="share-options">
+                  <button
+                    onClick={() =>
+                      this.copyToClipboard(
+                        `${window.location.origin}/teacherweek/${post.chenal_id}`
+                      )
+                    }
+                    className="share-option"
+                  >
+                    <FaLink color="white" /> URL
+                  </button>
+                  <a
+                    href={`https://wa.me/?text=Check out this module: ${window.location.origin}/teacherweek/${post.chenal_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-option"
+                  >
+                    <FaWhatsapp color="white" /> WhatsApp
+                  </a>
+                  <a
+                    href={`mailto:?subject=Check out this module&body=Here is a link to the module: ${window.location.origin}/teacherweek/${post.chenal_id}`}
+                    className="share-option"
+                  >
+                    <FaEnvelope color="white" /> Email
+                  </a>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-
-        <br />
-
-        {this.renderPagination()}
       </div>
     );
   }

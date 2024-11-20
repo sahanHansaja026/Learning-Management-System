@@ -29,6 +29,7 @@ import ChenaHome from "./chanel/chenal_home";
 import MOduleOwner from "./chanel/moduleowner";
 import ChenalEnrollment from "./chanel/chenalenrollement";
 import CheanelHome from "./chanel/chenal_home";
+import Addstudents_and_teachers from "./chanel/addstudents_and_teachers";
 
 const App = () => {
   const location = useLocation();
@@ -68,6 +69,11 @@ const App = () => {
         {/* for chenal */}
         <Route exact path="/chenalhome/:id" element={<ChenaHome />} />
         <Route exact path="/moduleowner/:id" element={<MOduleOwner />} />
+        <Route
+          exact
+          path="/addstudent/:chenalId"
+          element={<Addstudents_and_teachers />}
+        />
         <Route
           exact
           path="/chenalenrollement/:id"

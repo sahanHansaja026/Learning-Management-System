@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import authService from "../services/authService";
 import PrimaryAdmin from "./PrimaryAdmin";
 import SecondaryAdmin from "./SecondaryAdmin";
+import AddStudentsAndTeachers from "./showstudent"; // Corrected import
 import "../css/chenal_details.css";
 
 const ChenalDetails = () => {
@@ -11,7 +12,7 @@ const ChenalDetails = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState("primaryAdmin");
+  const [activeTab, setActiveTab] = useState("primaryAdmin"); // Set single default tab
   const [userProfile, setUserProfile] = useState(null); // State for user profile
   const { id } = useParams();
 
@@ -65,10 +66,8 @@ const ChenalDetails = () => {
     setActiveTab(tabName);
   };
 
-  // Check if user email matches admin email to conditionally render the Primary Admin tab
+  // Conditional checks for tabs
   const showPrimaryAdminTab = post?.email === email;
-  const showPrimaryConten = post?.email === email;
-  const elseshowtab = post?.email !== email;
 
   if (!post) {
     return <div>Loading...</div>; // Show loading message while post is being fetched
@@ -89,7 +88,7 @@ const ChenalDetails = () => {
         <div className="chanelprofile">
           <img
             src={
-              userProfile && userProfile.image
+              userProfile?.image
                 ? `http://localhost:9001/Profileimge/${userProfile.image}` // Profile image from backend
                 : `http://localhost:9001/Profileimge/default.png` // Default image
             }
@@ -101,7 +100,17 @@ const ChenalDetails = () => {
 
       <div className="channel-details">
         <h2>Welcome, {username}!</h2>
+        <p>User Email: {email}</p>
 
+        <div className="admin-info">
+          <h2>Channel Information</h2>
+          <p>
+            <strong>Admin Email:</strong> {post?.email}
+          </p>
+          <p>
+            <strong>Channel ID:</strong> {post?.chenal_id}
+          </p>
+        </div>
         <div className="channel-summary">
           <h3>About This Channel</h3>
           <p className={isExpanded ? "expanded" : "collapsed"}>
@@ -131,13 +140,28 @@ const ChenalDetails = () => {
           }`}
           onClick={() => handleTabClick("secondaryAdmin")}
         >
-          Third Party
+          Student
         </button>
+        {showPrimaryAdminTab && (
+          <button
+            className={`tablinks ${activeTab === "addstudent" ? "active" : ""}`}
+            onClick={() => handleTabClick("addstudent")}
+          >
+            Add Student and Teachers
+          </button>
+        )}
       </div>
 
       {/* Tab Content */}
-      {showPrimaryConten && activeTab === "primaryAdmin" && <PrimaryAdmin />}
-      {elseshowtab && activeTab === "secondaryAdmin" && <SecondaryAdmin />}
+      {activeTab === "primaryAdmin" && showPrimaryAdminTab && <PrimaryAdmin />}
+      {activeTab === "addstudent" && showPrimaryAdminTab && (
+        <AddStudentsAndTeachers
+          chenalId={post?.chenal_id}
+          adminEmail={post?.email}
+        />
+      )}
+
+      {activeTab === "secondaryAdmin" && <SecondaryAdmin />}
     </div>
   );
 };
