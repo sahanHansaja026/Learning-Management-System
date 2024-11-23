@@ -1,39 +1,40 @@
-body{
-    background-color: #424C5E;
-    height: 100%;
+.login{
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: fit-content;
 }
 .login .formbox{
     margin-top: 5px;
 
 }
-.formbox h1{
+.login .formbox h1{
     font-size: 75px;
-    color: white;
+    color: rgb(0, 0, 0);
     font-weight: bold;
     margin-left: 0px;
     margin-top: -20px;
 }
-.formbox p{
+.login .formbox p{
     font-size: 35px;
-    color: white;
+    color: rgb(0, 0, 0);
     margin-top: -55px;
     margin-left: 30px;
 }
 .formbox .content{
     display: flex;
 }
-.formbox .content img{
+.login .formbox .content img{
     width: 500px;
     margin-left: 50px;
 }
-.formbox .content form{
+.login .formbox .content form{
     margin-left: 400px;
     flex-direction: column;
 }
-.formbox label{
+.login .formbox label{
     font-size: 40px;
     font-weight: bold;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 .formbox input[type="email"], .formbox input[type="password"],.formbox input[type="text"]{
     width: 500px;
@@ -43,19 +44,19 @@ body{
     border-radius: 50px;
     font-size: 25px;
 }
-.formbox .remember{
+.login .formbox .remember{
     display: flex;
-    color:white;
+    color:rgb(0, 0, 0);
     gap: 10px;
 }
-.formbox .remember input[type="checkbox"] {
+.login .formbox .remember input[type="checkbox"] {
     width: 20px;
     height: 20px;
     accent-color: #007BFF; 
     cursor: pointer; 
     margin-top: 28px;
 }
-.formbox button{
+.login .formbox button{
     width: 350px;
     padding: 10px 0;
     border-radius: 50px;

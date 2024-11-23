@@ -11,7 +11,7 @@ import heroimage from "../images/test.png";
 export default class About extends Component {
   render() {
     return (
-      <div className="about">
+      <div className="abouts">
         <div className="hero">
           <div className="herotext">
             <h1>Welcome</h1>

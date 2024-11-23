@@ -14,14 +14,14 @@ import {
 const AddPage = ({ setCardId }) => {
   const { id } = useParams();
   const [assignments, setAssignments] = useState([]);
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [post, setPost] = useState(null);
   const [postLoading, setPostLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [cmsName, setCmsName] = useState("");
-  const [progress, setProgress] = useState({}); // Store progress data
-
+  const [progress, setProgress] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,6 +55,7 @@ const AddPage = ({ setCardId }) => {
         );
         if (response.data.success) {
           setAssignments(response.data.posts);
+          setSelectedMaterial(response.data.posts[0] || null); // Default to the first material
         } else {
           setAssignments([]);
         }
@@ -102,6 +103,10 @@ const AddPage = ({ setCardId }) => {
     window.location.href = `/add/${id}`;
   };
 
+  const handleMaterialClick = (material) => {
+    setSelectedMaterial(material);
+  };
+
   const handleQuizClick = (quiz_id) => {
     markProgress(quiz_id);
     navigate(`/quiz/${quiz_id}`);
@@ -124,170 +129,119 @@ const AddPage = ({ setCardId }) => {
     }
   };
 
-  const handleAssignmentClick = (assignment_id) => {
-    markProgress(assignment_id);
-  };
-
   return (
-    <div className="weeks">
-      <div className="weekshow">
-        {((post && post.email === email) ||
-          (post && post.owneremail === email)) && (
+    <div className="page-container">
+      <div className="sidebar">
+        <h3>Course Materials</h3>
+        <ul>
+          {assignments.map((assignment) => (
+            <li
+              key={assignment._id}
+              className={
+                assignment._id === selectedMaterial?._id ? "active" : ""
+              }
+              onClick={() => handleMaterialClick(assignment)}
+            >
+              {assignment.assignment_name ||
+                assignment.video_name ||
+                assignment.note_name ||
+                assignment.quiz_name ||
+                assignment.CMS_name ||
+                "Untitled Material"}
+            </li>
+          ))}
+        </ul>
+        {post && post.email === email && (
           <button className="btn-create" onClick={handleCreateActivity}>
             <FaPlus /> Create New Activity
           </button>
         )}
       </div>
 
-      {postLoading ? (
-        <p>Loading post details...</p>
-      ) : post ? (
-        <div className="post-details">
-          <p>{post.title}</p>
-          {cmsName && (
-            <div
-              className="cms-name"
-              onClick={handleCMSClick}
-              style={{ cursor: "pointer", color: "blue" }}
-            >
-              <h4>{cmsName}</h4>
-            </div>
-          )}
-        </div>
-      ) : (
-        <p>{errorMessage}</p>
-      )}
+      <div className="content">
+        {loading ? (
+          <p>Loading assignments...</p>
+        ) : selectedMaterial ? (
+          <div className="assignment-details">
+            <h2>{selectedMaterial.assignment_name}</h2>
 
-      {loading ? (
-        <p>Loading assignments...</p>
-      ) : (
-        <div className="assignments-container">
-          {assignments.length === 0 ? (
-            <p>No assignments found for this card_id</p>
-          ) : (
-            assignments.map((assignment) => (
-              <div
-                key={assignment._id}
-                className={`assignment-card ${
-                  progress[assignment._id] ? "completed" : ""
-                }`}
-                onClick={() => handleAssignmentClick(assignment._id)}
-              >
-                <div className="assignment-header">
-                  <p className="assignment-date">
-                    {new Date(assignment.createdAt).toLocaleString()}
-                  </p>
-                  <hr />
-                  <h3 style={{ color: "red" }}>{assignment.assignment_name}</h3>
-                </div>
-                <div className="assignment-body">
-                  {assignment.assignment && (
-                    <p style={{ color: "red" }}>
-                      <FaFileAlt style={{ color: "red" }} /> Assignment File:{" "}
-                      <a
-                        href={`http://localhost:9001/Assignmentfile/${assignment.assignment}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ color: "red" }}
-                      >
-                        Download Assignment
-                      </a>
-                    </p>
-                  )}
-                  {assignment.video_name && assignment.video && (
-                    <div>
-                      <h3>
-                        <FaVideo /> Video: {assignment.video_name}
-                      </h3>
-                      <center>
-                        <video
-                          width="320"
-                          height="240"
-                          controls
-                          style={{
-                            border: "1px solid #ddd",
-                            borderRadius: "5px",
-                          }}
-                          onPlay={() => markProgress(assignment._id)}
-                        >
-                          <source
-                            src={`http://localhost:9001/VideoFile/${assignment.video}`}
-                            type="video/mp4"
-                          />
-                          Your browser does not support the video tag.
-                        </video>
-                      </center>
-                    </div>
-                  )}
-                  {assignment.note_name && assignment.note && (
-                    <div>
-                      <h3>
-                        <FaStickyNote /> Notes: {assignment.note_name}
-                      </h3>
-                      <p>
-                        Notes File:{" "}
-                        <a
-                          href={`http://localhost:9001/NotesFile/${assignment.note}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={() => markProgress(assignment._id)}
-                        >
-                          Download Notes
-                        </a>
-                      </p>
-                    </div>
-                  )}
-                  {assignment.quiz_name &&
-                    assignment.description &&
-                    assignment.quiz_id && (
-                      <div style={{ display: "flex" }}>
-                        <p
-                          style={{
-                            color: "red",
-                            display: "flex",
-                            fontSize: "10px",
-                          }}
-                        >
-                          <FaClipboardList
-                            onClick={() => handleQuizClick(assignment.quiz_id)}
-                            className="quiz-title"
-                            style={{ color: "red", marginRight: "10px" }}
-                          ></FaClipboardList>
-                        </p>
-                        <h3 style={{ color: "red", marginTop: "8px" }}>
-                          {assignment.quiz_name}
-                        </h3>
-                      </div>
-                    )}
-                  {assignment.CMS_name &&
-                    assignment.description &&
-                    assignment.CMS_id && (
-                      <div style={{ display: "flex" }}>
-                        <p
-                          style={{
-                            color: "red",
-                            display: "flex",
-                            fontSize: "10px",
-                          }}
-                        >
-                          <FaClipboardList
-                            onClick={() => handleCMSClick(assignment.CMS_id)}
-                            className="quiz-title"
-                            style={{ color: "red", marginRight: "10px" }}
-                          ></FaClipboardList>
-                        </p>
-                        <h3 style={{ color: "red", marginTop: "8px" }}>
-                          Writing Assignment
-                          <br /> {assignment.CMS_name}
-                        </h3>
-                      </div>
-                    )}
-                </div>
+            {selectedMaterial.assignment && (
+              <p>
+                <FaFileAlt /> Assignment File:{" "}
+                <a
+                  href={`http://localhost:9001/Assignmentfile/${selectedMaterial.assignment}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Download Assignment
+                </a>
+              </p>
+            )}
+
+            {selectedMaterial.video_name && selectedMaterial.video && (
+              <div>
+                <video
+                  width="1000"
+                  height="fitcontent"
+                  controls
+                  onPlay={() => markProgress(selectedMaterial._id)}
+                >
+                  <source
+                    src={`http://localhost:9001/VideoFile/${selectedMaterial.video}`}
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
               </div>
-            ))
-          )}
-        </div>
-      )}
+            )}
+
+            {selectedMaterial.note_name && selectedMaterial.note && (
+              <div>
+                <h3>
+                  <FaStickyNote /> Notes: {selectedMaterial.note_name}
+                </h3>
+                <a
+                  href={`http://localhost:9001/NotesFile/${selectedMaterial.note}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Download Notes
+                </a>
+              </div>
+            )}
+
+            {selectedMaterial.CMS_name && (
+              <div>
+                <h3>
+                  <FaClipboardList /> CMS: {selectedMaterial.CMS_name}
+                </h3>
+                <button
+                  className="btn-action"
+                  onClick={() => handleCMSClick(selectedMaterial._id)}
+                >
+                  Open CMS
+                </button>
+              </div>
+            )}
+
+            {selectedMaterial.quiz_name && (
+              <div>
+                <h3>
+                  <FaClipboardList /> Quiz: {selectedMaterial.quiz_name}
+                </h3>
+                <button
+                  className="btn-action"
+                  onClick={() => handleQuizClick(selectedMaterial.quiz_id)}
+                >
+                  Start Quiz
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p>Select a material to view its details</p>
+        )}
+      </div>
     </div>
   );
 };

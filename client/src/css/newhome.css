@@ -6,7 +6,7 @@
   width: 100%;
   display: flex;
 }
-.newhome h1 {
+.newhome .contentofhome h1 {
   color: white;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -15,13 +15,13 @@
   font-size: 45px;
   font-weight: bold;
 }
-.newhome p {
+.newhome .contentofhome p {
   color: white;
   text-align: left;
   font-size: 15px;
   margin-top: -30px;
 }
-.herobox .content {
+.herobox .contentofhome {
   width: 450px;
   margin-left: 200px;
 }
@@ -130,6 +130,7 @@
     align-items: center;
     text-align: center;
     justify-content: center;
+    color: white;
 }
 .newhome .hh h1 {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,

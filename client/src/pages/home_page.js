@@ -179,7 +179,7 @@ export default class home_page extends Component {
     return (
       <div className="newhome">
         <div className="herobox">
-          <div className="content">
+          <div className="contentofhome">
             <h1>Develop your skills in a new and unique way</h1>
             <p>
               Module Mate is your platform for learning and growth, offering
