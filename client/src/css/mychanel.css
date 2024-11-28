@@ -7,15 +7,16 @@
 
 .pagination button {
   padding: 10px 15px;
-  background-color: #ffffff;
+  background-color: transparent;
   cursor: pointer;
   font-size: 25px;
   font-weight: bold;
+  border: 0px;
 }
 
 .pagination button.active {
-  background-color: #334373;
-  color: rgb(255, 255, 255);
+  background-color: transparent;
+  color: rgb(0, 17, 255);
 }
 
 .pagination button:disabled {

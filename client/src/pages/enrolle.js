@@ -122,7 +122,7 @@ const Enrolle = ({ setCardId }) => {
       )}
       <p>
         {enrollmentCount}
-        {""}already enrolled
+        {" "}already enrolled
       </p>
       <button onClick={handleEnrollClick}>Enroll</button>
       <div className="commengidelines">

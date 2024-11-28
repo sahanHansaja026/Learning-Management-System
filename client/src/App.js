@@ -23,6 +23,7 @@ import WriteCms from "./components/CMS";
 import Footer from "./components/footer";
 import About from "./pages/about";
 import SearchComponent from "./components/searchcomponent";
+import Message from "./components/message";
 
 //for chenals
 import ChenaHome from "./chanel/chenal_home";
@@ -66,6 +67,7 @@ const App = () => {
         <Route exact path="/quiz/:quizId" element={<Quiz />} />
         <Route exact path="/WriteCMS/:CMS_id" element={<WriteCms />} />
         <Route exact path="/score/:quizId" element={<Score />} />
+        <Route exact path="/message/:id" element={<Message />} />
         {/* for chenal */}
         <Route exact path="/chenalhome/:id" element={<ChenaHome />} />
         <Route exact path="/moduleowner/:id" element={<MOduleOwner />} />

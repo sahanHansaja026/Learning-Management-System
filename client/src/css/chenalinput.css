@@ -59,7 +59,7 @@
   border-radius: 4px;
   font-size: 35px;
   background-color: transparent;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
 }
 .input_sub1 textarea {
   width: 100%;
@@ -68,7 +68,7 @@
   border-radius: 4px;
   font-size: 28px;
   background-color: transparent;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   height: 125px;
   resize: none; /* Disable manual resizing */
   overflow-y: hidden; /* Hide vertical overflow */
@@ -82,8 +82,8 @@
 }
 
 .input_sub1 button {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
+  background-color: #000000;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 10px 15px;
   border-radius: 4px;
@@ -92,14 +92,14 @@
 }
 
 .input_sub1 input[type="text"]::placeholder {
-  color: #3d3d3d;
+  color: #b7b7b7;
   opacity: 1;
   font-size: 35px;
   font-weight: bold;
 }
 
 .input_sub1 textarea::placeholder {
-  color: #3d3d3d;
+  color: #bab7b7;
   opacity: 1;
   font-size: 28px;
   font-weight: bold;

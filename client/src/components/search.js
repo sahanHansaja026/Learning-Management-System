@@ -29,7 +29,6 @@ const Search = () => {
         })
         .catch((error) => {
           console.error("Error searching for module or card:", error);
-          setErrorMessage("Error. Unable to search for the module.");
           setPosts([]);
         });
     } else {

@@ -8,15 +8,15 @@
 
 .sidebar {
   width: 200px;
-  background-color: #333;
-  color: #fff;
+  background-color: #d2d2d2;
+  color: #000000;
   padding: 20px;
   font-size: 25px;
   overflow-y: scroll; /* Allow scrolling */
   scrollbar-width: none; /* For Firefox */
 }
 .sidebar h2{
-  color: white;
+  color: rgb(0, 0, 0);
 }
 .sidebar::-webkit-scrollbar {
   display: none; /* For Chrome, Safari, and Opera */
@@ -32,12 +32,12 @@
 }
 
 .sidebar ul li a {
-  color: #fff;
+  color: #000000;
   text-decoration: none;
 }
 
 .sidebar ul li a:hover {
-  color: #04f73d;
+  color: #0101ff;
 }
 
 .main-content {
@@ -53,8 +53,8 @@
 }
 
 .sidebar .open-modal-btn {
-  background-color: #04f73d;
-  color: red;
+  background-color: #000000;
+  color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 15px;
   padding: 10px 15px; /* Add padding for better button appearance */
@@ -64,5 +64,5 @@
 }
 
 .sidebar .open-modal-btn:hover {
-  background-color: #03e62f; /* Slightly darker shade on hover */
+  background-color: #0d00ff; /* Slightly darker shade on hover */
 }

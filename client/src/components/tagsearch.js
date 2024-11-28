@@ -57,10 +57,10 @@ const TagSearch = ({ enrollmentCounts = {} }) => {
     }
 
     try {
-      const response = await axios.get(
-        "http://localhost:9001/posts/tags/search",
-        { params: { tags: selectedTags.join(",") } }
-      );
+const response = await axios.get("http://localhost:9001/posts/tags/search", {
+  params: { tags: selectedTags.join(",") },
+});
+
       if (response.data && Array.isArray(response.data.posts)) {
         setPosts(response.data.posts);
         setError(""); // Reset error if successful

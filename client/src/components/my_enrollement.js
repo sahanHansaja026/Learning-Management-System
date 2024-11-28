@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "../css/home.css";
+import "../css/my_enrollement.css";
 import authService from "../services/authService";
 import { Link } from "react-router-dom";
 import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
@@ -98,7 +98,6 @@ export default class Home extends Component {
     const pages = [];
     const maxVisiblePages = 3;
 
-    // Add the "First" page
     if (currentPage > 1) {
       pages.push(
         <button
@@ -111,12 +110,10 @@ export default class Home extends Component {
       );
     }
 
-    // Add ellipsis if needed
     if (currentPage > maxVisiblePages + 1) {
       pages.push(<span key="left-ellipsis">...</span>);
     }
 
-    // Add middle pages
     for (
       let i = Math.max(2, currentPage - maxVisiblePages);
       i <= Math.min(totalPages - 1, currentPage + maxVisiblePages);
@@ -133,12 +130,10 @@ export default class Home extends Component {
       );
     }
 
-    // Add ellipsis if needed
     if (currentPage < totalPages - maxVisiblePages) {
       pages.push(<span key="right-ellipsis">...</span>);
     }
 
-    // Add the "Last" page
     if (totalPages > 1) {
       pages.push(
         <button
@@ -188,12 +183,12 @@ export default class Home extends Component {
 
     return (
       <div className="enrolle">
-        <div className="card-container">
+        <div className="cards-container">
           {postArray.length > 0 ? (
             postArray.map((post) => (
-              <div className="card" key={post.card_id}>
-                <a href={`/teacherweek/${post.card_id}`} className="card-link">
-                  <div className="card-image">
+              <div className="cards flex" key={post.card_id}>
+                <Link to={`/teacherweek/${post.card_id}`} className="textlink">
+                  <div className="cards-image">
                     <img
                       src={
                         post.image
@@ -203,30 +198,31 @@ export default class Home extends Component {
                       alt={post.image ? post.image : "No Image"}
                     />
                   </div>
-                  <div className="card-header">
+
+                  <div className="cards-content flex-col">
                     <h3>{post.title}</h3>
+
                     <p>{this.truncateSummary(post.summery, 100)}</p>
                   </div>
-                </a>
+                </Link>
 
                 {/* Share Icon */}
                 <div
-                  className="share-icon"
+                  className="shares-icon"
                   onClick={() => this.toggleShareMenu(post.card_id)}
                 >
                   <FaShareAlt color="white" />
                 </div>
 
-                {/* Share Menu */}
                 {shareMenuVisible === post.card_id && (
-                  <div className="share-options">
+                  <div className="shares-options">
                     <button
                       onClick={() =>
                         this.copyToClipboard(
                           `${window.location.origin}/teacherweek/${post.card_id}`
                         )
                       }
-                      className="share-option"
+                      className="shares-option"
                     >
                       <FaLink color="white" /> Copy Link
                     </button>
@@ -234,13 +230,13 @@ export default class Home extends Component {
                       href={`https://wa.me/?text=Check out this module: ${window.location.origin}/teacherweek/${post.card_id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="share-option"
+                      className="shares-option"
                     >
                       <FaWhatsapp color="white" /> WhatsApp
                     </a>
                     <a
                       href={`mailto:?subject=Check out this module&body=Here is a link to the module: ${window.location.origin}/teacherweek/${post.card_id}`}
-                      className="share-option"
+                      className="shares-option"
                     >
                       <FaEnvelope color="white" /> Email
                     </a>

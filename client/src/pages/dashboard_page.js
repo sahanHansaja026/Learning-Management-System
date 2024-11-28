@@ -7,7 +7,7 @@ import Search from "../components/searchcomponent";
 import authService from "../services/authService";
 import axios from "axios";
 import Enroll from "../components/my_enrollementcomponent";
-import MyModule from "../components/my_module";
+import MyModule from "../components/my_creation_component";
 import Calender from "../components/calender";
 import Chanel from "../chanel/chanel";
 import Mychenal from "../chanel/mychenal";
@@ -20,7 +20,7 @@ import {
   faGift,
   faPlusCircle,
   faFolderOpen,
-  faYoutube,
+  faChartArea,
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -69,21 +69,15 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <aside className="sidebar">
-        <h2>Dashboard</h2>
         <ul>
           <li>
             <Link to="/dashboard/analytics">
-              <FontAwesomeIcon icon={faUserGraduate} /> Analytics
+              <FontAwesomeIcon icon={faChartArea} /> Analytics
             </Link>
           </li>
           <li>
             <Link to="/dashboard/myenrollement">
               <FontAwesomeIcon icon={faUserGraduate} /> My Enrollment
-            </Link>
-          </li>
-          <li>
-            <Link to="/dashboard/mychenal">
-              <FontAwesomeIcon icon={faTv} /> My Chanel
             </Link>
           </li>
           <li>

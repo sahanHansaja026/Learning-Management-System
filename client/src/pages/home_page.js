@@ -19,6 +19,7 @@ export default class home_page extends Component {
       email: "",
       shareMenuVisible: null,
       enrollmentCounts: {}, // Track enrollment counts for each post
+      currentSlide: 0, // Track the current slide position
     };
   }
 
@@ -94,6 +95,28 @@ export default class home_page extends Component {
     alert("Link copied to clipboard!");
   };
 
+  // Navigation Functions for Slideshow
+  goToNextSlide = () => {
+    this.setState((prevState) => ({
+      currentSlide: (prevState.currentSlide + 1) % prevState.posts.length,
+    }));
+  };
+
+  goToPreviousSlide = () => {
+    this.setState((prevState) => ({
+      currentSlide:
+        (prevState.currentSlide - 1 + prevState.posts.length) %
+        prevState.posts.length,
+    }));
+  };
+
+  truncateSummary(summary, maxLength = 100) {
+    if (summary.length > maxLength) {
+      return `${summary.substring(0, maxLength)}...`;
+    }
+    return summary;
+  }
+
   renderPagination() {
     const { currentPage, totalPages } = this.state;
     const pages = [];
@@ -166,16 +189,16 @@ export default class home_page extends Component {
     );
   }
 
-  truncateSummary(summary, maxLength = 100) {
-    if (summary.length > maxLength) {
-      return `${summary.substring(0, maxLength)}...`;
-    }
-    return summary;
-  }
-
   render() {
-    const { posts, username, email, shareMenuVisible, enrollmentCounts } =
-      this.state;
+    const {
+      posts,
+      username,
+      email,
+      shareMenuVisible,
+      enrollmentCounts,
+      currentSlide,
+    } = this.state;
+
     return (
       <div className="newhome">
         <div className="herobox">
@@ -250,6 +273,7 @@ export default class home_page extends Component {
             </div>
           </div>
         </div>
+
         <div className="hh">
           <h1>
             <i>Discover Courses to Elevate Your Learning</i>
@@ -261,72 +285,91 @@ export default class home_page extends Component {
           </p>
           <br />
         </div>
-        <div className="card-container">
-          {posts
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .map((post) => (
-              <div className="card" key={post.card_id}>
-                <a
-                  href={`/enrollestudent/${post.card_id}`}
-                  className="card-link"
-                >
-                  {shareMenuVisible === post.card_id && (
-                    <div className="share-options">
-                      <button
-                        onClick={() =>
-                          this.copyToClipboard(
-                            `${window.location.origin}/enrollestudent/${post.card_id}`
-                          )
-                        }
-                        className="share-option"
-                      >
-                        <FaLink color="white" /> URL
-                      </button>
+
+        {/* Slideshow */}
+        <div className="card-containers">
+          <button className="prev-btn" onClick={this.goToPreviousSlide}>
+            &#60; {/* Unicode for '<' */}
+          </button>
+
+          <div className="card-slideshow">
+            {posts.length > 0 && (
+              <div
+                className="card-slider"
+                style={{
+                  transform: `translateX(-${currentSlide * 100}%)`,
+                  transition: "transform 0.5s ease-in-out",
+                }}
+              >
+                {posts
+                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .map((post) => (
+                    <div className="card" key={post.card_id}>
                       <a
-                        href={`https://wa.me/?text=Check out this module: ${window.location.origin}/enrollestudent/${post.card_id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="share-option"
+                        href={`/enrollestudent/${post.card_id}`}
+                        className="card-link"
                       >
-                        <FaWhatsapp color="white" /> WhatsApp
-                      </a>
-                      <a
-                        href={`mailto:?subject=Check out this module&body=Here is a link to the module: ${window.location.origin}/enrollestudent/${post.card_id}`}
-                        className="share-option"
-                      >
-                        <FaEnvelope color="white" /> Email
+                        {shareMenuVisible === post.card_id && (
+                          <div className="share-options">
+                            <button
+                              onClick={() =>
+                                this.copyToClipboard(
+                                  `${window.location.origin}/enrollestudent/${post.card_id}`
+                                )
+                              }
+                              className="share-option"
+                            >
+                              <FaLink color="white" /> URL
+                            </button>
+                            <a
+                              href={`https://wa.me/?text=Check out this module: ${window.location.origin}/enrollestudent/${post.card_id}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="share-option"
+                            >
+                              <FaWhatsapp color="white" /> WhatsApp
+                            </a>
+                            <a
+                              href={`mailto:?subject=Check out this module&body=Here is a link to the module: ${window.location.origin}/enrollestudent/${post.card_id}`}
+                              className="share-option"
+                            >
+                              <FaEnvelope color="white" /> Email
+                            </a>
+                          </div>
+                        )}
+                        <div className="card-image">
+                          <img
+                            src={
+                              post.image
+                                ? `http://localhost:9001/Uploads/${post.image}`
+                                : ""
+                            }
+                            alt={post.image ? post.image : "No Image"}
+                          />
+                        </div>
+                        <div className="card-header">
+                          <h3>{post.title}</h3>
+                          <p>{this.truncateSummary(post.summery, 100)}</p>
+                          <div className="countenrolle">
+                            <strong>
+                              {enrollmentCounts[post.card_id] || 0} Already
+                              enrolled
+                            </strong>
+                          </div>
+                        </div>
                       </a>
                     </div>
-                  )}
-                  <div className="card-image">
-                    <img
-                      src={
-                        post.image
-                          ? `http://localhost:9001/Uploads/${post.image}`
-                          : ""
-                      }
-                      alt={post.image ? post.image : "No Image"}
-                    />
-                  </div>
-                  <div className="card-header">
-                    <h3>{post.title}</h3>
-                    <p>{this.truncateSummary(post.summery, 100)}</p>
-                    <div className="countenrolle">
-                      <strong>
-                        {enrollmentCounts[post.card_id] || 0} Already enrolled
-                      </strong>
-                    </div>
-                  </div>
-                </a>
-                <div className="share-icon">
-                  <FaShareAlt
-                    color="white"
-                    onClick={() => this.toggleShareMenu(post.card_id)}
-                  />
-                </div>
+                  ))}
               </div>
-            ))}
+            )}
+          </div>
+
+          <button className="next-btn" onClick={this.goToNextSlide}>
+            &#62; {/* Unicode for '>' */}
+          </button>
         </div>
+
+        {/* Pagination */}
         {this.renderPagination()}
       </div>
     );

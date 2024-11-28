@@ -27,6 +27,7 @@ const Analytics = require("./routes/dashboard");
 const TagSearch = require("./routes/tagsearch");
 const Subscribers = require("./routes/subscriber");
 const Subscripion = require("./routes/subscription");
+const Message = require("./routes/message");
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -55,6 +56,7 @@ app.use(PogressRoute);
 app.use(Analytics);
 app.use(TagSearch)
 app.use(Subscribers);
+app.use(Message);
 
 //for chanel
 app.use(ChenalCreateRoute);

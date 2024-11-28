@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../css/weeks.css";
+import Message from "./message";
 import authService from "../services/authService";
 import {
   FaPlus,
@@ -22,6 +23,7 @@ const AddPage = ({ setCardId }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [cmsName, setCmsName] = useState("");
   const [progress, setProgress] = useState({});
+  const [view, setView] = useState("details"); // Tracks the current view: "details" or "message"
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -102,6 +104,7 @@ const AddPage = ({ setCardId }) => {
   };
 
   const handleMaterialClick = (material) => {
+    setView("details"); // Switch back to details view
     setSelectedMaterial(material);
   };
 
@@ -113,6 +116,10 @@ const AddPage = ({ setCardId }) => {
   const handleCMSClick = (CMS_id) => {
     markProgress(CMS_id);
     navigate(`/WriteCMS/${CMS_id}`);
+  };
+
+  const handleclicknavigate = () => {
+    setView("message"); // Switch to message view
   };
 
   const markProgress = async (activity_id) => {
@@ -148,6 +155,7 @@ const AddPage = ({ setCardId }) => {
                 "Untitled Material"}
             </li>
           ))}
+          <li onClick={handleclicknavigate}>Message with Module Owner</li>
         </ul>
         {post && post.email === email && (
           <button className="btn-create" onClick={handleCreateActivity}>
@@ -157,87 +165,91 @@ const AddPage = ({ setCardId }) => {
       </div>
 
       <div className="content">
-        {loading ? (
-          <p>Loading assignments...</p>
-        ) : selectedMaterial ? (
-          <div className="assignment-details">
-            <h2>{selectedMaterial.assignment_name}</h2>
+        {view === "details" ? (
+          loading ? (
+            <p>Loading assignments...</p>
+          ) : selectedMaterial ? (
+            <div className="assignment-details">
+              <h2>{selectedMaterial.assignment_name}</h2>
 
-            {selectedMaterial.assignment && (
-              <p>
-                <FaFileAlt /> Assignment File:{" "}
-                <a
-                  href={`http://localhost:9001/Assignmentfile/${selectedMaterial.assignment}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download Assignment
-                </a>
-              </p>
-            )}
+              {selectedMaterial.assignment && (
+                <p>
+                  <FaFileAlt /> Assignment File:{" "}
+                  <a
+                    href={`http://localhost:9001/Assignmentfile/${selectedMaterial.assignment}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download Assignment
+                  </a>
+                </p>
+              )}
 
-            {selectedMaterial.video_name && selectedMaterial.video && (
-              <div>
-                <video
-                  width="1000"
-                  height="fitcontent"
-                  controls
-                  onPlay={() => markProgress(selectedMaterial._id)}
-                >
-                  <source
-                    src={`http://localhost:9001/VideoFile/${selectedMaterial.video}`}
-                    type="video/mp4"
-                  />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            )}
+              {selectedMaterial.video_name && selectedMaterial.video && (
+                <div>
+                  <video
+                    width="1000"
+                    height="fitcontent"
+                    controls
+                    onPlay={() => markProgress(selectedMaterial._id)}
+                  >
+                    <source
+                      src={`http://localhost:9001/VideoFile/${selectedMaterial.video}`}
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              )}
 
-            {selectedMaterial.note_name && selectedMaterial.note && (
-              <div>
-                <h3>
-                  <FaStickyNote /> Notes: {selectedMaterial.note_name}
-                </h3>
-                <a
-                  href={`http://localhost:9001/NotesFile/${selectedMaterial.note}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download Notes
-                </a>
-              </div>
-            )}
+              {selectedMaterial.note_name && selectedMaterial.note && (
+                <div>
+                  <h3>
+                    <FaStickyNote /> Notes: {selectedMaterial.note_name}
+                  </h3>
+                  <a
+                    href={`http://localhost:9001/NotesFile/${selectedMaterial.note}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download Notes
+                  </a>
+                </div>
+              )}
 
-            {selectedMaterial.CMS_name && (
-              <div>
-                <h3>
-                  <FaClipboardList /> CMS: {selectedMaterial.CMS_name}
-                </h3>
-                <button
-                  className="btn-action"
-                  onClick={() => handleCMSClick(selectedMaterial._id)}
-                >
-                  Open CMS
-                </button>
-              </div>
-            )}
+              {selectedMaterial.CMS_name && (
+                <div>
+                  <h3>
+                    <FaClipboardList /> CMS: {selectedMaterial.CMS_name}
+                  </h3>
+                  <button
+                    className="btn-action"
+                    onClick={() => handleCMSClick(selectedMaterial._id)}
+                  >
+                    Open CMS
+                  </button>
+                </div>
+              )}
 
-            {selectedMaterial.quiz_name && (
-              <div>
-                <h3>
-                  <FaClipboardList /> Quiz: {selectedMaterial.quiz_name}
-                </h3>
-                <button
-                  className="btn-action"
-                  onClick={() => handleQuizClick(selectedMaterial.quiz_id)}
-                >
-                  Start Quiz
-                </button>
-              </div>
-            )}
-          </div>
+              {selectedMaterial.quiz_name && (
+                <div>
+                  <h3>
+                    <FaClipboardList /> Quiz: {selectedMaterial.quiz_name}
+                  </h3>
+                  <button
+                    className="btn-action"
+                    onClick={() => handleQuizClick(selectedMaterial.quiz_id)}
+                  >
+                    Start Quiz
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <p>Select a material to view its details</p>
+          )
         ) : (
-          <p>Select a material to view its details</p>
+          <Message id={id} /> // Render Message component with module ID
         )}
       </div>
     </div>
