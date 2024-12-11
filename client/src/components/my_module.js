@@ -20,7 +20,7 @@ const MyModule = () => {
         setUsername(userData.username);
         setEmail(userData.email);
 
-        const response = await axios.get(`http://localhost:9001/posts/${userData.email}?page=${currentPage}&limit=10`);
+        const response = await axios.get(`http://localhost:9001/posts/${userData.email}?page=${currentPage}&limit=3`);
         setPosts(response.data.existingPosts);
         setTotalPages(response.data.totalPages);
 

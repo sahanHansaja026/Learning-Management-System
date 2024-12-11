@@ -17,7 +17,7 @@ function ShowStudents({ chenalId, adminEmail }) {
       );
       setStudents(response.data.existingPosts); // Assuming the response contains posts in 'existingPosts'
     } catch (err) {
-      setError("Error fetching students: " + err.message);
+      setError("No students have joined this channel yet.");
     } finally {
       setLoading(false);
     }
@@ -49,9 +49,11 @@ function ShowStudents({ chenalId, adminEmail }) {
 
   return (
     <div className="add-students-container">
-      <h2>Show Students and Teachers</h2>
+      <h2>Add Students and Teachers</h2>
+      {/*}
       <p>Channel ID: {chenalId}</p>
       <p>Admin Email: {adminEmail}</p>
+  */}
 
       {loading && <p>Loading students...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}

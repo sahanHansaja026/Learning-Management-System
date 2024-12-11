@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import authService from "../services/authService";
 import PrimaryAdmin from "./PrimaryAdmin";
 import SecondaryAdmin from "./SecondaryAdmin";
@@ -86,20 +86,22 @@ const ChenalDetails = () => {
         </div>
 
         <div className="chanelprofile">
-          <img
-            src={
-              userProfile?.image
-                ? `http://localhost:9001/Profileimge/${userProfile.image}` // Profile image from backend
-                : `http://localhost:9001/Profileimge/default.png` // Default image
-            }
-            alt="Profile"
-            className="chaneldpimage"
-          />
+          <Link to="/Profile">
+            <img
+              src={
+                userProfile?.image
+                  ? `http://localhost:9001/Profileimge/${userProfile.image}` // Profile image from backend
+                  : `http://localhost:9001/Profileimge/default.png` // Default image
+              }
+              alt="Profile"
+              className="chaneldpimage"
+            />
+          </Link>
         </div>
       </div>
 
       <div className="channel-details">
-        <h2>Welcome, {username}!</h2>
+        {/*}
         <p>User Email: {email}</p>
 
         <div className="admin-info">
@@ -111,6 +113,7 @@ const ChenalDetails = () => {
             <strong>Channel ID:</strong> {post?.chenal_id}
           </p>
         </div>
+          */}
         <div className="channel-summary">
           <h3>About This Channel</h3>
           <p className={isExpanded ? "expanded" : "collapsed"}>

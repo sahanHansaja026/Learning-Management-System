@@ -24,6 +24,7 @@ import Footer from "./components/footer";
 import About from "./pages/about";
 import SearchComponent from "./components/searchcomponent";
 import Message from "./components/message";
+import Notewritter from "./components/notewritting";
 
 //for chenals
 import ChenaHome from "./chanel/chenal_home";
@@ -60,6 +61,7 @@ const App = () => {
         <Route exact path="/add_assingment/:id" element={<Assingment />} />
         <Route exact path="/add_note/:id" element={<Note />} />
         <Route exact path="/add_vedio/:id" element={<Video />} />
+        <Route exact path="/notewritting/:id" element={<Notewritter />} />
         <Route exact path="/add_quiz/:id" element={<CreateQuiz />} />
         <Route exact path="/add_cms/:id" element={<CMS />} />
         <Route exact path="/enrollestudent/:id" element={<EnrolleStudent />} />

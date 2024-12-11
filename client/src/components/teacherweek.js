@@ -155,7 +155,7 @@ const AddPage = ({ setCardId }) => {
                 "Untitled Material"}
             </li>
           ))}
-          <li onClick={handleclicknavigate}>Message with Module Owner</li>
+          <li onClick={handleclicknavigate}>Chat & Feedback</li>
         </ul>
         {post && post.email === email && (
           <button className="btn-create" onClick={handleCreateActivity}>

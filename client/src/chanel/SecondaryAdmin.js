@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaShareAlt, FaWhatsapp, FaEnvelope, FaLink } from "react-icons/fa";
-import "../css/home.css";
+import "../css/my_enrollement.css";
 import authService from "../services/authService";
 
 const ModuleView = () => {
@@ -133,16 +133,15 @@ const ModuleView = () => {
   };
 
   return (
-    <div className="home">
-      <h2>Welcome, {username}!</h2>
-      <div className="card-container">
+    <div className="enrolle">
+      <div className="cards-container">
         {posts
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map((post) => (
-            <div className="card" key={post.card_id}>
+            <div className="cards flex" key={post.card_id}>
               <a
                 href={`/chenalenrollement/${post.card_id}`}
-                className="card-link"
+                className="textlink"
               >
                 {shareMenuVisible === post.card_id && (
                   <div className="share-options">
@@ -172,7 +171,7 @@ const ModuleView = () => {
                     </a>
                   </div>
                 )}
-                <div className="card-image">
+                <div className="cards-image">
                   <img
                     src={
                       post.image
@@ -182,7 +181,7 @@ const ModuleView = () => {
                     alt={post.image ? post.image : "No Image"}
                   />
                 </div>
-                <div className="card-header">
+                <div className="cards-content flex-col">
                   <h3>{post.title}</h3>
                   <p>{truncateSummary(post.summery, 100)}</p>
                 </div>

@@ -167,12 +167,15 @@
   background-color: transparent;
   border: none;
   font-size: 74px;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   z-index: 10;
   font-weight: bolder;
   width: 55px;
   height: auto;
+}
+.next-btn:hover,.prev-btn:hover{
   background-color: rgb(79, 79, 79);
+  color: white;
 }
 
 .prev-btn {

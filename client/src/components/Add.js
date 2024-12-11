@@ -36,6 +36,9 @@ const AddPage = ({ setCardId }) => {
   const handleCreateActivity5 = () => {
     navigate(`/add_cms/${id}`);
   };
+  const handleCreateActivity6 = () => {
+    navigate(`/notewritting/${id}`)
+  }
 
   // Function to render content based on selected action
   const renderContent = () => {
@@ -167,6 +170,30 @@ const AddPage = ({ setCardId }) => {
             </div>
           </div>
         );
+      case "notewritting":
+        return (
+          <div className="additmebox">
+            <img src={NoteImage} alt="Lecture Note" className="action-image" />
+            <div className="addbuttonbox">
+              <p>
+                Lecture Notes are summaries of key concepts discussed during a
+                lesson. These notes help organize and record important
+                information, making it easier to review and study. They can
+                include bullet points, diagrams, or additional resources to
+                support understanding. Lecture notes serve as an efficient
+                reference tool, ensuring that nothing important is missed and
+                making study sessions more productive.
+              </p>
+              <br />
+              <button
+                className="btn btn-succes"
+                onClick={handleCreateActivity6}
+              >
+                <i className="fa fa-plus"></i>&nbsp;Create
+              </button>
+            </div>
+          </div>
+        );
       default:
         return <p>Please select an action from the sidebar.</p>;
     }
@@ -225,6 +252,16 @@ const AddPage = ({ setCardId }) => {
               onClick={() => setSelectedAction("add_note")}
             >
               Add Lecture Note
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-link ${
+                selectedAction === "notewritting" ? "active" : ""
+              }`}
+              onClick={() => setSelectedAction("notewritting")}
+            >
+              notewritting
             </button>
           </li>
         </ul>

@@ -42,7 +42,7 @@ export default class Home extends Component {
   renderPagination() {
     const { currentPage, totalPages } = this.state;
     const pages = [];
-    const maxVisiblePages = 3; // Number of page buttons to show on each side of the current page
+    const maxVisiblePages = 2; // Number of page buttons to show on each side of the current page
 
     // Display first page
     if (currentPage > 1) {
@@ -127,7 +127,7 @@ export default class Home extends Component {
   
     return (
       <div className="home">
-        <h1 style={{ color: "white", fontWeight: "bold" }}>My Modules</h1> {/* This is the H1 */}
+        <h1 style={{ color: "black", fontWeight: "bold" }}>My Modules</h1> {/* This is the H1 */}
         <br />
         <div className="posts-list">
           {posts.length > 0 ? (

@@ -61,35 +61,56 @@ function Message({ id, userEmail }) {
   }, [id]); // Refetch messages when `id` changes
 
   return (
-    <div className="message-container">
-      <div className="message-header">
-        <h2>Send a Message</h2>
-      </div>
-      <form onSubmit={handleSubmit} className="message-form">
-        <textarea
-          placeholder="Type your message here..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          rows="5"
-          className="message-textarea"
-        />
-        <button type="submit" className="send-message-btn">
-          Send Message
-        </button>
-      </form>
+    <div className="messagearea">
+      <h1>What do you think about this course?</h1>
+      <p>
+        We would greatly appreciate it if you could take a moment to share your
+        thoughts, experiences, and feedback regarding this course. Your insights
+        are incredibly valuable to us and help shape the future of our courses.
+        Please let us know which aspects of the course you found most engaging,
+        helpful, or interesting. We’re also eager to hear about any challenges
+        or areas where you feel the course could be improved. Whether it's the
+        course content, delivery method, or additional resources you feel could
+        enhance your learning, your feedback is essential.
+      </p>
+      <p>
+        Additionally, if you have any specific suggestions for making the course
+        more effective or enjoyable for future students, we would love to hear
+        them. Your feedback enables us to make continuous improvements and
+        ensures that we create an even better learning experience moving
+        forward. Your thoughts truly matter to us and play a key role in the
+        evolution of our educational offerings.
+      </p>
+      <div className="message-container">
+        <div className="message-header">
+          <h2>Send a Message</h2>
+        </div>
+        <form onSubmit={handleSubmit} className="message-form">
+          <textarea
+            placeholder="Type your message here..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows="5"
+            className="message-textarea"
+          />
+          <button type="submit" className="send-message-btn">
+            Send Message
+          </button>
+        </form>
 
-      <div className="message-list">
-        {messages.length > 0 ? (
-          messages.map((msg) => (
-            <div key={msg._id} className="message-item">
-              <p>
-                <strong>{msg.email}</strong>: {msg.message}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p>No messages available for this card.</p>
-        )}
+        <div className="message-list">
+          {messages.length > 0 ? (
+            messages.map((msg) => (
+              <div key={msg._id} className="message-item">
+                <p>
+                  <strong>{msg.email}</strong>: {msg.message}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p>No messages available for this Module.</p>
+          )}
+        </div>
       </div>
     </div>
   );
