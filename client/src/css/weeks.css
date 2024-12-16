@@ -37,8 +37,12 @@
 .assignment-details .parbox{
   width: fit-content;
   height: auto;
-  border: 2px solid red;
-  align-items: start;
+  border:2px solid red;
+  background-color: #ffdddd;
+  color: #d8000c;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 .assignment-details p {
   font-size: 1em;

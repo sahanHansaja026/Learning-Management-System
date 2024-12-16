@@ -54,7 +54,7 @@ app.use(CMSSaveRoute);
 app.use(UserCountRoute);
 app.use(PogressRoute);
 app.use(Analytics);
-app.use(TagSearch)
+app.use(TagSearch);
 app.use(Subscribers);
 app.use(Message);
 
