@@ -37,6 +37,12 @@ const postSchema = new Schema({
   description: {
     type: String,
   },
+  timeDuration:{
+    type:String,
+  },
+  attempt:{
+    type:String,
+  },
   CMS_id: {
     type: String,
   },
