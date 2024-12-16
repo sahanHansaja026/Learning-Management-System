@@ -10,6 +10,8 @@ const Create_quiz = ({ setCardId }) => {
   const [quizId, setQuizId] = useState("");
   const [quizName, setQuizName] = useState("");
   const [description, setDescription] = useState("");
+  const [attempt,setAttempt]=useState("");
+  const [timeDuration,setTimeDuration]=useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -27,6 +29,8 @@ const Create_quiz = ({ setCardId }) => {
       card_id: id,
       quiz_id: quizId,
       quiz_name: quizName,
+      attempt:attempt,
+      timeDuration:timeDuration,
       description: description,
     };
 
@@ -58,6 +62,24 @@ const Create_quiz = ({ setCardId }) => {
               type="text"
               value={quizName}
               onChange={(e) => setQuizName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Attempt</label>
+            <input
+              type="number"
+              value={attempt}
+              onChange={(e) => setAttempt(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>timeDuration</label>
+            <input
+              type="time"
+              value={timeDuration}
+              onChange={(e) => setTimeDuration(e.target.value)}
               required
             />
           </div>

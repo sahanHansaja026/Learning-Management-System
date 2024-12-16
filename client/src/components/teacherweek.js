@@ -236,6 +236,12 @@ const AddPage = ({ setCardId }) => {
                   <h3>
                     <FaClipboardList /> Quiz: {selectedMaterial.quiz_name}
                   </h3>
+                <div className="parbox">
+                <p>
+                  {selectedMaterial.description}
+                  </p>
+                </div>
+
                   <button
                     className="btn-action"
                     onClick={() => handleQuizClick(selectedMaterial.quiz_id)}

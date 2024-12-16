@@ -14,7 +14,6 @@
 .content p {
   font-size: 1.1em;
   color: #555;
-  text-align: center;
 }
 
 /* Assignment details wrapper */
@@ -35,10 +34,17 @@
 }
 
 /* Date and time formatting */
+.assignment-details .parbox{
+  width: fit-content;
+  height: auto;
+  border: 2px solid red;
+  align-items: start;
+}
 .assignment-details p {
   font-size: 1em;
-  color: #777;
+  color: #000000;
   margin-bottom: 15px;
+  align-items: start;
 }
 
 /* Downloadable content links */
@@ -88,7 +94,6 @@
 /* Icon-based section headings */
 .assignment-details h3 {
   display: flex;
-  align-items: center;
   font-size: 1.4em;
   color: #555;
   margin-bottom: 10px;
@@ -170,7 +175,7 @@
 
 .assignment-date {
   font-size: 14px;
-  color: #777;
+  color: #000000;
 }
 
 /* Assignment Body */
