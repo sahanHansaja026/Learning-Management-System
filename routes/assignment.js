@@ -1,6 +1,8 @@
 const express = require("express");
 const Posts = require("../models/assignment");
 const multer = require("multer");
+const mongoose = require("mongoose");
+
 const path = require("path");
 
 const router = express.Router();
@@ -92,6 +94,28 @@ router.get("/assignment/:id", async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 });
+
+// Get a specific quiz by ID
+router.get("/quiz_details/:quizId", async (req, res) => {
+  try {
+    const quiz_id = req.params.quizId;
+
+    // If not using ObjectId, replace findById with a query
+    const quiz = await Posts.findOne({ quiz_id: quiz_id });
+
+    if (!quiz) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Quiz not found" });
+    }
+
+    return res.status(200).json({ success: true, quiz });
+  } catch (error) {
+    return res.status(400).json({ success: false, message:"sahan" });
+  }
+});
+
+
 
 // Update assignment
 router.put("/assignment/update/:id", async (req, res) => {

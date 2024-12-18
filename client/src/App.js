@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+
 import Landing_Page from "./pages/landing_page";
 import NavBar from "./components/navbar";
 import Login from "./pages/login_page";
@@ -25,6 +26,7 @@ import About from "./pages/about";
 import SearchComponent from "./components/searchcomponent";
 import Message from "./components/message";
 import Notewritter from "./components/notewritting";
+import VedioEdit from "./components/Editting/vedio";
 
 //for chenals
 import ChenaHome from "./chanel/chenal_home";
@@ -70,6 +72,8 @@ const App = () => {
         <Route exact path="/WriteCMS/:CMS_id" element={<WriteCms />} />
         <Route exact path="/score/:quizId" element={<Score />} />
         <Route exact path="/message/:id" element={<Message />} />
+
+        <Route exact path="/vdiosedit/:video_id" element={<VedioEdit />} />
         {/* for chenal */}
         <Route exact path="/chenalhome/:id" element={<ChenaHome />} />
         <Route exact path="/moduleowner/:id" element={<MOduleOwner />} />

@@ -35,7 +35,7 @@
 
 /* Date and time formatting */
 .assignment-details .parbox{
-  width: fit-content;
+  width: 1300px;
   height: auto;
   border:2px solid red;
   background-color: #ffdddd;
@@ -98,7 +98,7 @@
 /* Icon-based section headings */
 .assignment-details h3 {
   display: flex;
-  font-size: 1.4em;
+  font-size: 35px;
   color: #555;
   margin-bottom: 10px;
 }
@@ -299,4 +299,27 @@
 
 .page-container .assignment-details h2 {
   margin-bottom: 10px;
+}
+.three-dots-btn {
+  background: none; /* Transparent background */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor on hover */
+  padding: 1px; /* Optional: adjust padding */
+  display: flex;
+  flex-direction: column; /* Align dots vertically */
+  align-items: center;
+  justify-content: center;
+  gap: 3px; /* Space between dots */
+  color:blue;
+  font-size:22px;
+  margin-right: 35px;
+}
+
+
+/* Optional hover effect */
+.three-dots-btn:hover .dot {
+  background-color: #555; /* Change dot color on hover */
+}
+.editandtitle{
+  display: flex;
 }

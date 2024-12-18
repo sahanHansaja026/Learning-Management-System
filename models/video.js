@@ -10,9 +10,13 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
+  video_id: {
+    type: String,
+    required: true,
+  },
   video: {
     type: String,
-    required: true,  // Since an assignment file is mandatory
+    required: true, // Since an assignment file is mandatory
   },
   createdAt: {
     type: Date,

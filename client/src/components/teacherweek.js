@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../css/weeks.css";
 import Message from "./message";
 import authService from "../services/authService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import {
   FaPlus,
   FaFileAlt,
@@ -112,7 +114,10 @@ const AddPage = ({ setCardId }) => {
     markProgress(quiz_id);
     navigate(`/quiz/${quiz_id}`);
   };
-
+  const handleVedioEditClick = (video_id) => {
+    markProgress(video_id);
+    navigate(`/vdiosedit/${video_id}`);
+  };
   const handleCMSClick = (CMS_id) => {
     markProgress(CMS_id);
     navigate(`/WriteCMS/${CMS_id}`);
@@ -187,6 +192,21 @@ const AddPage = ({ setCardId }) => {
 
               {selectedMaterial.video_name && selectedMaterial.video && (
                 <div>
+                  <div className="editandtitle">
+                    {post && post.email === email && (
+                      <button
+                        className="three-dots-btn"
+                        onClick={() =>
+                          handleVedioEditClick(selectedMaterial.video_id)
+                        }
+                      >
+                        <h4>Clik to Edit</h4>
+                      </button>
+                    )}
+
+                    <h3> {selectedMaterial.video_name}</h3>
+                  </div>
+
                   <video
                     width="1000"
                     height="fitcontent"
@@ -236,11 +256,9 @@ const AddPage = ({ setCardId }) => {
                   <h3>
                     <FaClipboardList /> Quiz: {selectedMaterial.quiz_name}
                   </h3>
-                <div className="parbox">
-                <p>
-                  {selectedMaterial.description}
-                  </p>
-                </div>
+                  <div className="parbox">
+                    <p>{selectedMaterial.description}</p>
+                  </div>
 
                   <button
                     className="btn-action"

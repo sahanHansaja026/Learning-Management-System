@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideo } from "@fortawesome/free-solid-svg-icons";
+import { v4 as uuidv4 } from "uuid"; // Import uuid
 import "../css/video.css";
 
 const InputVideo = () => {
@@ -11,6 +12,7 @@ const InputVideo = () => {
     card_id: id || "", // Initialize card_id with id from URL
     video_name: "",
     video: null,
+    video_id: uuidv4(), // Generate unique video_id
   });
   const [dragActive, setDragActive] = useState(false);
 
@@ -56,7 +58,7 @@ const InputVideo = () => {
       formData.append(key, newPost[key]);
     }
 
-    const { video_name, video, card_id } = newPost;
+    const { video_name, video, card_id, video_id } = newPost;
     if (!video_name || !video || !card_id) {
       alert("Please fill in all required fields.");
       return;
@@ -75,6 +77,7 @@ const InputVideo = () => {
             card_id: id || "",
             video_name: "",
             video: null,
+            video_id: uuidv4(), // Reset video_id to a new unique value
           });
         } else {
           console.error("Error adding video:", res.data.error);

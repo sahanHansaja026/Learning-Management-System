@@ -28,6 +28,9 @@ const postSchema = new Schema({
   video: {
     type: String,
   },
+  video_id: {
+    type: String,
+  },
   quiz_id: {
     type: String,
   },
@@ -37,11 +40,11 @@ const postSchema = new Schema({
   description: {
     type: String,
   },
-  timeDuration:{
-    type:String,
+  timeDuration: {
+    type: String,
   },
-  attempt:{
-    type:String,
+  attempt: {
+    type: String,
   },
   CMS_id: {
     type: String,
